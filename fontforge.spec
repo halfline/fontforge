@@ -1,6 +1,6 @@
 Name:           fontforge
 Version:        0.0
-Release:        0.fdr.1.20040824.2
+Release:        1.20040824
 Epoch:          0
 Summary:        An outline and bitmap font editor
 
