@@ -1,15 +1,15 @@
 Name:           fontforge
 Version:        0.0
-Release:        1.20040824
+Release:        1.20041231
 Epoch:          0
 Summary:        An outline and bitmap font editor
 
 Group:          Applications/Publishing
 License:        BSD
 URL:            http://fontforge.sourceforge.net/
-Source0:        http://fontforge.sourceforge.net/fontforge_full-20040824.tgz
+Source0:        http://dl.sf.net/fontforge/fontforge_full-20041231.tgz
 Source1:        fontforge.desktop
-Source2:        http://fontforge.sourceforge.net/fontforge_htdocs-20040824.tgz
+Source2:        http://dl.sf.net/fontforge/fontforge_htdocs-20041231.tgz
 Source3:        pfaicon.gif
 Patch1:         fontforge-20040618-docview.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -34,7 +34,7 @@ fonts. It supports a range of font formats, including PostScript
 (Type2) and CID-keyed fonts.
 
 %prep
-%setup -q -n fontforge-20040824
+%setup -q -n fontforge-20041231
 %patch1 -p2 -b .docview
 
 mkdir htdocs
@@ -84,6 +84,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS INSTALL LICENSE README htdocs
 %{_bindir}/*
 %{_libdir}/*.so.*
+%{_libdir}/pkgconfig/fontforge.pc
 %{_datadir}/applications/*.desktop
 %{_datadir}/%{name}
 %{_datadir}/pixmaps/*.png
@@ -91,6 +92,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jan 17 2005 Marius L. Jøhndal <mariuslj at ifi.uio.no> - 0:0.0-1.20041231
+- Updated to 20041231.
+
+* Thu Oct 28 2004 Marius L. Jøhndal <mariuslj at ifi.uio.no> - 0:0.0-0.fdr.1.20041014
+- Updated to 20041014.
+
 * Sun Sep 19 2004 Marius L. Jøhndal <mariuslj at ifi.uio.no> - 0:0.0-0.fdr.1.20040824
 - Updated to 20040824.
 
