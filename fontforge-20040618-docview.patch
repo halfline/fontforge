@@ -1,0 +1,11 @@
+--- BUILD/fontforge-20040618/fontforge/uiutil.c.docview	2004-06-15 21:43:23.000000000 +0200
++++ BUILD/fontforge-20040618/fontforge/uiutil.c	2004-06-30 12:23:52.320054423 +0200
+@@ -240,7 +240,7 @@
+ 	"iexplore.exe",
+ 	/*"lynx.exe",*/
+ #else
+-    static char *stdbrowsers[] = { "mozilla", "opera", "galeon", "kfmclient",
++    static char *stdbrowsers[] = { "htmlview", "mozilla", "opera", "galeon", "kfmclient",
+ 	"netscape", "mosaic", /*"grail",*/ "lynx",
+ #endif
+ 	NULL };
