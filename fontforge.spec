@@ -1,8 +1,7 @@
 Name:           fontforge
 Version:        0.0
 Release:        2.20041231
-Epoch:          0
-Summary:        An outline and bitmap font editor
+Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
 License:        BSD
@@ -25,7 +24,7 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  libuninameslist-devel
 Obsoletes:      pfaedit
 
-%description 
+%description
 FontForge (former PfaEdit) is a font editor for outline and bitmap
 fonts. It supports a range of font formats, including PostScript
 (ASCII and binary Type 1, some Type 3 and Type 0), TrueType, OpenType
@@ -42,7 +41,7 @@ chmod 644 htdocs/*
 mkdir cidmaps
 tar xzf htdocs/cidmaps.tgz -C cidmaps
 
-find . -name "CVS" -type d -print | xargs rm -r 
+find . -name "CVS" -type d -print | xargs rm -r
 
 for i in fontforge/fontforge.1 fontforge/sfddiff.1 ; do
   iconv -f iso-8859-1 -t utf-8 $i -o $i.utf8 ; mv $i.utf8 $i
@@ -185,7 +184,7 @@ rm -rf $RPM_BUILD_ROOT
 - Updated to 031012.
 - Removed .so links.
 - Removed empty AUTHORS file.
-- Removed the samples subpackage. 
+- Removed the samples subpackage.
 
 * Mon Sep 22 2003 Marius L. Jøhndal <mariuslj at ifi.uio.no> 0:0.0-0.fdr.1.030904
 - Updated to 030904.
