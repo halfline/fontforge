@@ -1,15 +1,15 @@
 Name:           fontforge
 Version:        0.0
-Release:        0.fdr.1.20040618.2
+Release:        0.fdr.1.20040824.2
 Epoch:          0
 Summary:        An outline and bitmap font editor
 
 Group:          Applications/Publishing
 License:        BSD
 URL:            http://fontforge.sourceforge.net/
-Source0:        http://fontforge.sourceforge.net/fontforge_full-20040618.tgz
+Source0:        http://fontforge.sourceforge.net/fontforge_full-20040824.tgz
 Source1:        fontforge.desktop
-Source2:        http://fontforge.sourceforge.net/fontforge_htdocs-20040618.tgz
+Source2:        http://fontforge.sourceforge.net/fontforge_htdocs-20040824.tgz
 Source3:        pfaicon.gif
 Patch1:         fontforge-20040618-docview.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -34,7 +34,7 @@ fonts. It supports a range of font formats, including PostScript
 (Type2) and CID-keyed fonts.
 
 %prep
-%setup -q -n fontforge-20040618
+%setup -q -n fontforge-20040824
 %patch1 -p2 -b .docview
 
 mkdir htdocs
@@ -91,6 +91,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Sep 19 2004 Marius L. Jøhndal <mariuslj at ifi.uio.no> - 0:0.0-0.fdr.1.20040824
+- Updated to 20040824.
+
 * Wed Jun 30 2004 Marius L. Jøhndal <mariuslj at ifi.uio.no> - 0:0.0-0.fdr.1.20040618
 - Updated to 20040618.
 
