@@ -1,6 +1,6 @@
 Name:           fontforge
 Version:        0.0
-Release:        1.20041231
+Release:        2.20041231
 Epoch:          0
 Summary:        An outline and bitmap font editor
 
@@ -10,7 +10,6 @@ URL:            http://fontforge.sourceforge.net/
 Source0:        http://dl.sf.net/fontforge/fontforge_full-20041231.tgz
 Source1:        fontforge.desktop
 Source2:        http://dl.sf.net/fontforge/fontforge_htdocs-20041231.tgz
-Source3:        pfaicon.gif
 Patch1:         fontforge-20040618-docview.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -22,7 +21,6 @@ BuildRequires:  libungif-devel
 BuildRequires:  libxml2-devel
 BuildRequires:  freetype-devel
 BuildRequires:  XFree86-devel
-BuildRequires:  ImageMagick
 BuildRequires:  desktop-file-utils
 BuildRequires:  libuninameslist-devel
 Obsoletes:      pfaedit
@@ -34,40 +32,48 @@ fonts. It supports a range of font formats, including PostScript
 (Type2) and CID-keyed fonts.
 
 %prep
-%setup -q -n fontforge-20041231
+%setup -q -n %{name}-20041231
 %patch1 -p2 -b .docview
 
 mkdir htdocs
 tar xzf %{SOURCE2} -C htdocs
 rm -rf htdocs/scripts
+chmod 644 htdocs/*
 mkdir cidmaps
 tar xzf htdocs/cidmaps.tgz -C cidmaps
 
 find . -name "CVS" -type d -print | xargs rm -r 
 
+for i in fontforge/fontforge.1 fontforge/sfddiff.1 ; do
+  iconv -f iso-8859-1 -t utf-8 $i -o $i.utf8 ; mv $i.utf8 $i
+done
+
+sed -i -e 's/-rpath $(libdir)//' fontforge/Makefile*.in
+
 
 %build
 %configure --with-regular-link --with-freetype-bytecode=no
-# Parallell make not working.
+# Parallel make not working.
 make DOCDIR=%{_docdir}/%{name}-%{version}/htdocs
+
 
 %install
 rm -rf $RPM_BUILD_ROOT
 # make install DESTDIR=$RPM_BUILD_ROOT fails.
 %makeinstall
 install -p -m 644 cidmaps/Adobe* $RPM_BUILD_ROOT%{_datadir}/fontforge
-rm -f $RPM_BUILD_ROOT%{_libdir}/libgunicode.la $RPM_BUILD_ROOT%{_libdir}/libgdraw.la
-rm -f $RPM_BUILD_ROOT%{_libdir}/libgunicode.so $RPM_BUILD_ROOT%{_libdir}/libgdraw.so
+rm -f $RPM_BUILD_ROOT%{_libdir}/libg{draw,unicode}.{la,so}
 
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/pixmaps
-convert %{SOURCE3} fontforge.png
-install -m 644 fontforge.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/
+install -Dpm 644 htdocs/ffanvil32.png \
+  $RPM_BUILD_ROOT%{_datadir}/pixmaps/fontforge.png
 
 desktop-file-install \
   --vendor fedora                                          \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications            \
   --add-category X-Fedora                                  \
   %{SOURCE1}
+
+chmod -x $RPM_BUILD_ROOT%{_libdir}/pkgconfig/fontforge.pc
 
 
 %clean
@@ -81,17 +87,24 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc AUTHORS INSTALL LICENSE README htdocs
+%doc AUTHORS LICENSE htdocs
 %{_bindir}/*
-%{_libdir}/*.so.*
+%{_libdir}/libg*.so.*
 %{_libdir}/pkgconfig/fontforge.pc
-%{_datadir}/applications/*.desktop
-%{_datadir}/%{name}
-%{_datadir}/pixmaps/*.png
+%{_datadir}/applications/*fontforge.desktop
+%{_datadir}/fontforge
+%{_datadir}/pixmaps/fontforge.png
 %{_mandir}/man1/*.1*
 
 
 %changelog
+* Sat Jan 29 2005 Ville Skyttä <ville.skytta at iki.fi> - 0:0.0-2.20041231
+- Avoid RPATH.
+- Convert man pages to UTF-8.
+- Fix pkgconfig and doc file permissions.
+- Use updated upstream icon.
+- Don't include installation documentation.
+
 * Mon Jan 17 2005 Marius L. Jøhndal <mariuslj at ifi.uio.no> - 0:0.0-1.20041231
 - Updated to 20041231.
 
