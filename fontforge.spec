@@ -1,14 +1,14 @@
 Name:           fontforge
 Version:        0.0
-Release:        2.20041231
+Release:        2.20050310.fc4
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
 License:        BSD
 URL:            http://fontforge.sourceforge.net/
-Source0:        http://dl.sf.net/fontforge/fontforge_full-20041231.tgz
+Source0:        http://dl.sf.net/fontforge/fontforge_full-20050310.tgz
 Source1:        fontforge.desktop
-Source2:        http://dl.sf.net/fontforge/fontforge_htdocs-20041231.tgz
+Source2:        http://dl.sf.net/fontforge/fontforge_htdocs-20050310.tgz
 Patch1:         fontforge-20040618-docview.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -31,7 +31,7 @@ fonts. It supports a range of font formats, including PostScript
 (Type2) and CID-keyed fonts.
 
 %prep
-%setup -q -n %{name}-20041231
+%setup -q -n %{name}-20050310
 %patch1 -p2 -b .docview
 
 mkdir htdocs
@@ -97,6 +97,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Mar 19 2005 Owen Taylor <otaylor@redhat.com> - 0.0-2.20050310
+- Update to 20050310
+
 * Sat Jan 29 2005 Ville Skyttä <ville.skytta at iki.fi> - 0:0.0-2.20041231
 - Avoid RPATH.
 - Convert man pages to UTF-8.
