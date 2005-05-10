@@ -1,14 +1,14 @@
 Name:           fontforge
 Version:        0.0
-Release:        2.20050310.fc4
+Release:        2.20050502.fc4
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
 License:        BSD
 URL:            http://fontforge.sourceforge.net/
-Source0:        http://dl.sf.net/fontforge/fontforge_full-20050310.tgz
+Source0:        http://dl.sf.net/fontforge/fontforge_full-20050502.tgz
 Source1:        fontforge.desktop
-Source2:        http://dl.sf.net/fontforge/fontforge_htdocs-20050310.tgz
+Source2:        http://dl.sf.net/fontforge/fontforge_htdocs-20050503.tgz
 Patch1:         fontforge-20040618-docview.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -31,7 +31,7 @@ fonts. It supports a range of font formats, including PostScript
 (Type2) and CID-keyed fonts.
 
 %prep
-%setup -q -n %{name}-20050310
+%setup -q -n %{name}-20050502
 %patch1 -p2 -b .docview
 
 mkdir htdocs
@@ -51,9 +51,10 @@ sed -i -e 's/-rpath $(libdir)//' fontforge/Makefile*.in
 
 
 %build
+export CPPFLAGS='-DDOCDIR=\"%{_docdir}/%{name}-%{version}/htdocs\"'
 %configure --with-regular-link --with-freetype-bytecode=no
 # Parallel make not working.
-make DOCDIR=%{_docdir}/%{name}-%{version}/htdocs
+make
 
 
 %install
@@ -74,6 +75,10 @@ desktop-file-install \
 
 chmod -x $RPM_BUILD_ROOT%{_libdir}/pkgconfig/fontforge.pc
 
+# The fontforge makefiles install htdocs as well, but we
+# prefer to have them under the standard RPM location, so
+# remove the extra copy
+rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/fontforge
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -97,6 +102,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue May 10 2005 Owen Taylor <otaylor@redhat.com> - 0.0-2.20050502.fc4
+- Update to 20050502
+- Fix the build to look for the docs where we install them
+
 * Sat Mar 19 2005 Owen Taylor <otaylor@redhat.com> - 0.0-2.20050310
 - Update to 20050310
 
