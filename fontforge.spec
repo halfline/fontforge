@@ -1,15 +1,14 @@
 Name:           fontforge
 Version:        0.0
-Release:        2.20050502.fc4
+Release:        2.20050729.fc5
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
 License:        BSD
 URL:            http://fontforge.sourceforge.net/
-Source0:        http://dl.sf.net/fontforge/fontforge_full-20050502.tgz
+Source0:        http://dl.sf.net/fontforge/fontforge_full-20050729.tgz
 Source1:        fontforge.desktop
-Source2:        http://dl.sf.net/fontforge/fontforge_htdocs-20050503.tgz
-Patch1:         fontforge-20040618-docview.patch
+Source2:        http://dl.sf.net/fontforge/fontforge_htdocs-20050729.tgz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       htmlview
@@ -31,8 +30,7 @@ fonts. It supports a range of font formats, including PostScript
 (Type2) and CID-keyed fonts.
 
 %prep
-%setup -q -n %{name}-20050502
-%patch1 -p2 -b .docview
+%setup -q -n %{name}-20050729
 
 mkdir htdocs
 tar xzf %{SOURCE2} -C htdocs
@@ -102,6 +100,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Jul 30 2005 Owen Taylor <otaylor@redhat.com> - 0.0-2.20050729.fc5
+- Update to 20050729
+- Remove .docview patch, looking for HTMLview is upstream so no longer needed
+
 * Tue May 10 2005 Owen Taylor <otaylor@redhat.com> - 0.0-2.20050502.fc4
 - Update to 20050502
 - Fix the build to look for the docs where we install them
