@@ -1,14 +1,17 @@
+%define docs_version 20060114
+%define gettext_package FontForge
+
 Name:           fontforge
-Version:        0.0
-Release:        2.20050729.fc5
+Version:        20060125
+Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
 License:        BSD
 URL:            http://fontforge.sourceforge.net/
-Source0:        http://dl.sf.net/fontforge/fontforge_full-20050729.tgz
+Source0:        http://dl.sf.net/fontforge/fontforge_full-%{version}.tar.bz2
 Source1:        fontforge.desktop
-Source2:        http://dl.sf.net/fontforge/fontforge_htdocs-20050729.tgz
+Source2:        http://dl.sf.net/fontforge/fontforge_htdocs-%{docs_version}.tgz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       htmlview
@@ -22,6 +25,7 @@ BuildRequires:  XFree86-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  libuninameslist-devel
 Obsoletes:      pfaedit
+Provides:       pfaedit
 
 %description
 FontForge (former PfaEdit) is a font editor for outline and bitmap
@@ -30,7 +34,7 @@ fonts. It supports a range of font formats, including PostScript
 (Type2) and CID-keyed fonts.
 
 %prep
-%setup -q -n %{name}-20050729
+%setup -q -n %{name}-%{version}
 
 mkdir htdocs
 tar xzf %{SOURCE2} -C htdocs
@@ -39,20 +43,18 @@ chmod 644 htdocs/*
 mkdir cidmaps
 tar xzf htdocs/cidmaps.tgz -C cidmaps
 
-find . -name "CVS" -type d -print | xargs rm -r
-
-for i in fontforge/fontforge.1 fontforge/sfddiff.1 ; do
-  iconv -f iso-8859-1 -t utf-8 $i -o $i.utf8 ; mv $i.utf8 $i
-done
-
 sed -i -e 's/-rpath $(libdir)//' fontforge/Makefile*.in
+
+# Fix bad line terminators
+%{__sed} -i 's/\r//' htdocs/Big5.txt
+%{__sed} -i 's/\r//' htdocs/corpchar.txt
 
 
 %build
 export CPPFLAGS='-DDOCDIR=\"%{_docdir}/%{name}-%{version}/htdocs\"'
 %configure --with-regular-link --with-freetype-bytecode=no
-# Parallel make not working.
-make
+
+make %{?_smp_mflags}
 
 
 %install
@@ -78,6 +80,9 @@ chmod -x $RPM_BUILD_ROOT%{_libdir}/pkgconfig/fontforge.pc
 # remove the extra copy
 rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/fontforge
 
+# Find translations
+%find_lang %{gettext_package}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -87,7 +92,7 @@ rm -rf $RPM_BUILD_ROOT
 %postun -p /sbin/ldconfig
 
 
-%files
+%files -f %{gettext_package}.lang
 %defattr(-,root,root,-)
 %doc AUTHORS LICENSE htdocs
 %{_bindir}/*
@@ -100,7 +105,19 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Sat Jul 30 2005 Owen Taylor <otaylor@redhat.com> - 0.0-2.20050729.fc5
+* Wed Feb 01 2006 Roozbeh Pournader <roozbeh@farsiweb.info> - 20060125-1
+- Update to 20060125 (bug #170177)
+- Update docs to 20060114
+- Change versioning to reflect upstream and follow packaging guidelines
+- Provide pfaedit (bug #176548)
+- Use %%{?dist} tag (bug #176472)
+- Add localizations
+- No need to remove CVS subdir: fixed upstream
+- No need to covert man pages to UTF-8: fixed upstream
+- Fixed DOS line terminators
+- Use parallel build
+
+* Sat Jul 30 2005 Owen Taylor <otaylor@redhat.com> - 0.0-2.20050729.fc4
 - Update to 20050729
 - Remove .docview patch, looking for HTMLview is upstream so no longer needed
 
