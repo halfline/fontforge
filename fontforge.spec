@@ -3,7 +3,7 @@
 
 Name:           fontforge
 Version:        20060125
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -15,6 +15,7 @@ Source2:        http://dl.sf.net/fontforge/fontforge_htdocs-%{docs_version}.tgz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       htmlview
+
 BuildRequires:  libjpeg-devel
 BuildRequires:  libtiff-devel
 BuildRequires:  libpng-devel
@@ -23,6 +24,9 @@ BuildRequires:  libxml2-devel
 BuildRequires:  freetype-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  libuninameslist-devel
+BuildRequires:  libXt-devel
+BuildRequires:  xorg-x11-proto-devel
+
 Obsoletes:      pfaedit
 Provides:       pfaedit
 
@@ -104,6 +108,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Feb 01 2006 Roozbeh Pournader <roozbeh@farsiweb.info> - 20060125-4
+- Add "BuildRequires:" on libXt-devel and xorg-x11-proto-devel
+
 * Wed Feb 01 2006 Roozbeh Pournader <roozbeh@farsiweb.info> - 20060125-3
 - Really remove XFree86-devel BuildReq
 
