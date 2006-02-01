@@ -3,7 +3,7 @@
 
 Name:           fontforge
 Version:        20060125
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -105,6 +105,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Feb 01 2006 Roozbeh Pournader <roozbeh@farsiweb.info> - 20060125-2
+- Remove XFree86-devel BuildReq
+
 * Wed Feb 01 2006 Roozbeh Pournader <roozbeh@farsiweb.info> - 20060125-1
 - Update to 20060125 (bug #170177)
 - Update docs to 20060114
