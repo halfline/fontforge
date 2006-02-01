@@ -3,7 +3,7 @@
 
 Name:           fontforge
 Version:        20060125
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -21,7 +21,6 @@ BuildRequires:  libpng-devel
 BuildRequires:  libungif-devel
 BuildRequires:  libxml2-devel
 BuildRequires:  freetype-devel
-BuildRequires:  XFree86-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  libuninameslist-devel
 Obsoletes:      pfaedit
@@ -105,6 +104,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Feb 01 2006 Roozbeh Pournader <roozbeh@farsiweb.info> - 20060125-3
+- Really remove XFree86-devel BuildReq
+
 * Wed Feb 01 2006 Roozbeh Pournader <roozbeh@farsiweb.info> - 20060125-2
 - Remove XFree86-devel BuildReq
 
