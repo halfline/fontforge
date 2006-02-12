@@ -3,7 +3,7 @@
 
 Name:           fontforge
 Version:        20060125
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -12,6 +12,7 @@ URL:            http://fontforge.sourceforge.net/
 Source0:        http://dl.sf.net/fontforge/fontforge_full-%{version}.tar.bz2
 Source1:        fontforge.desktop
 Source2:        http://dl.sf.net/fontforge/fontforge_htdocs-%{docs_version}.tgz
+Patch1:         fontforge-20060125-glibccrash.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       htmlview
@@ -38,6 +39,7 @@ fonts. It supports a range of font formats, including PostScript
 
 %prep
 %setup -q -n %{name}-%{version}
+%patch1 -p1 -b .glibccrash
 
 mkdir htdocs
 tar xzf %{SOURCE2} -C htdocs
@@ -108,6 +110,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Feb 12 2006 Roozbeh Pournader <roozbeh@farsiweb.info> - 20060125-5
+- Add patch to fix crash (#181052, George Williams)
+
 * Wed Feb 01 2006 Roozbeh Pournader <roozbeh@farsiweb.info> - 20060125-4
 - Add "BuildRequires:" on libXt-devel and xorg-x11-proto-devel
 
