@@ -3,7 +3,7 @@
 
 Name:           fontforge
 Version:        20060125
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -110,6 +110,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Feb 13 2006 Roozbeh Pournader <roozbeh@farsiweb.info> - 20060125-6
+- Rebuild for Fedora Extras 5
+
 * Sun Feb 12 2006 Roozbeh Pournader <roozbeh@farsiweb.info> - 20060125-5
 - Add patch to fix crash (#181052, George Williams)
 
