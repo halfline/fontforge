@@ -3,7 +3,7 @@
 
 Name:           fontforge
 Version:        20060125
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -27,6 +27,7 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  libuninameslist-devel
 BuildRequires:  libXt-devel
 BuildRequires:  xorg-x11-proto-devel
+BuildRequires:  gettext
 
 Obsoletes:      pfaedit
 Provides:       pfaedit
@@ -110,6 +111,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Jun 18 2006 Roozbeh Pournader <roozbeh@farsiweb.info> - 20060125-7
+- Add BuildRequires on gettext, to make sure the package builds in minimal
+  mock environments
+
 * Mon Feb 13 2006 Roozbeh Pournader <roozbeh@farsiweb.info> - 20060125-6
 - Rebuild for Fedora Extras 5
 
