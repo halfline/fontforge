@@ -1,9 +1,9 @@
-%define docs_version 20060114
+%define docs_version 20060822
 %define gettext_package FontForge
 
 Name:           fontforge
-Version:        20060125
-Release:        7%{?dist}
+Version:        20060822
+Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -11,8 +11,7 @@ License:        BSD
 URL:            http://fontforge.sourceforge.net/
 Source0:        http://dl.sf.net/fontforge/fontforge_full-%{version}.tar.bz2
 Source1:        fontforge.desktop
-Source2:        http://dl.sf.net/fontforge/fontforge_htdocs-%{docs_version}.tgz
-Patch1:         fontforge-20060125-glibccrash.patch
+Source2:        http://dl.sf.net/fontforge/fontforge_htdocs-%{docs_version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       htmlview
@@ -40,12 +39,13 @@ fonts. It supports a range of font formats, including PostScript
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch1 -p1 -b .glibccrash
 
 mkdir htdocs
-tar xzf %{SOURCE2} -C htdocs
+tar xjf %{SOURCE2} -C htdocs
 rm -rf htdocs/scripts
-chmod 644 htdocs/*
+chmod 644 htdocs/*.gif
+chmod 644 htdocs/*.html
+chmod 644 htdocs/*.png
 mkdir cidmaps
 tar xzf htdocs/cidmaps.tgz -C cidmaps
 
@@ -58,6 +58,7 @@ sed -i -e 's/-rpath $(libdir)//' fontforge/Makefile*.in
 
 %build
 export CPPFLAGS='-DDOCDIR=\"%{_docdir}/%{name}-%{version}/htdocs\"'
+export LIBS=-lgif
 %configure --with-regular-link --with-freetype-bytecode=no
 
 make %{?_smp_mflags}
@@ -111,6 +112,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Sep 21 2006 Kevin Fenzi <kevin@tummy.com> - 20060822-1
+- Update to 20060822
+- Remove unneeded patch
+- Add flag to compile right with giflib
+
 * Sun Jun 18 2006 Roozbeh Pournader <roozbeh@farsiweb.info> - 20060125-7
 - Add BuildRequires on gettext, to make sure the package builds in minimal
   mock environments
