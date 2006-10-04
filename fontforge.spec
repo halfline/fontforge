@@ -3,7 +3,7 @@
 
 Name:           fontforge
 Version:        20060822
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -112,6 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Oct 05 2006 Christian Iseli <Christian.Iseli@licr.org> 20060822-2
+ - rebuilt for unwind info generation, broken in gcc-4.1.1-21
+
 * Thu Sep 21 2006 Kevin Fenzi <kevin@tummy.com> - 20060822-1
 - Update to 20060822
 - Remove unneeded patch
