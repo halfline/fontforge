@@ -1,9 +1,9 @@
-%define docs_version 20060822
+%define docs_version 20061014
 %define gettext_package FontForge
 
 Name:           fontforge
-Version:        20060822
-Release:        2%{?dist}
+Version:        20061019
+Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -112,6 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Oct 20 2006 Kevin Fenzi <kevin@tummy.com> - 20061019-1
+- Update to 20061019
+
 * Thu Oct 05 2006 Christian Iseli <Christian.Iseli@licr.org> 20060822-2
  - rebuilt for unwind info generation, broken in gcc-4.1.1-21
 
