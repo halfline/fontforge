@@ -2,7 +2,7 @@
 %define gettext_package FontForge
 
 Name:           fontforge
-Version:        20061019
+Version:        20061025
 Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
@@ -12,6 +12,7 @@ URL:            http://fontforge.sourceforge.net/
 Source0:        http://dl.sf.net/fontforge/fontforge_full-%{version}.tar.bz2
 Source1:        fontforge.desktop
 Source2:        http://dl.sf.net/fontforge/fontforge_htdocs-%{docs_version}.tar.bz2
+Patch1:         fontforge-20061025-usFirstCharIndex.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       htmlview
@@ -39,6 +40,7 @@ fonts. It supports a range of font formats, including PostScript
 
 %prep
 %setup -q -n %{name}-%{version}
+%patch1 -p1 -b .usFirstCharIndex
 
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
@@ -112,6 +114,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Nov 25 2006 Roozbeh Pournader <roozbeh@farsiweb.info> - 20061025-1
+- Update to 20061025
+- Patch to correct usFirstCharIndex (George Williams)
+
 * Fri Oct 20 2006 Kevin Fenzi <kevin@tummy.com> - 20061019-1
 - Update to 20061019
 

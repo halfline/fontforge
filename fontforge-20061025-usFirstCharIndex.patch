@@ -1,0 +1,10 @@
+--- fontforge-20061025/fontforge/tottf.c.usFirstCharIndex	2006-10-05 07:29:12.000000000 +0330
++++ fontforge-20061025/fontforge/tottf.c	2006-11-25 13:59:52.000000000 +0330
+@@ -3187,7 +3187,6 @@
+ 	os2->firstcharindex = 0xf000 + first;	/* This gets mapped to space */
+ 	os2->lastcharindex  = 0xf000 + last;
+     } else {
+-	if ( first>13 && format!=ff_otf && format!=ff_otfcid ) first = 13;	/* We give the font an extra char mapped to cr (13) */
+ 	os2->firstcharindex = first;
+ 	os2->lastcharindex = last;
+ 	OS2FigureCodePages(sf, os2->ulCodePage);
