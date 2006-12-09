@@ -3,7 +3,7 @@
 
 Name:           fontforge
 Version:        20061025
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -13,6 +13,7 @@ Source0:        http://dl.sf.net/fontforge/fontforge_full-%{version}.tar.bz2
 Source1:        fontforge.desktop
 Source2:        http://dl.sf.net/fontforge/fontforge_htdocs-%{docs_version}.tar.bz2
 Patch1:         fontforge-20061025-usFirstCharIndex.patch
+Patch2:         fontforge-20061025-fsSel.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       htmlview
@@ -41,6 +42,7 @@ fonts. It supports a range of font formats, including PostScript
 %prep
 %setup -q -n %{name}-%{version}
 %patch1 -p1 -b .usFirstCharIndex
+%patch2 -p1 -b .fsSel
 
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
@@ -114,6 +116,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Dec 09 2006 Roozbeh Pournader <roozbeh@farsiweb.info> - 20061025-2
+- Add patch to fix fsSelection problem with DejaVu ExtraLight
+
 * Sat Nov 25 2006 Roozbeh Pournader <roozbeh@farsiweb.info> - 20061025-1
 - Update to 20061025
 - Patch to correct usFirstCharIndex (George Williams)
