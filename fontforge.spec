@@ -1,9 +1,9 @@
-%define docs_version 20061014
+%define docs_version 20061220
 %define gettext_package FontForge
 
 Name:           fontforge
-Version:        20061025
-Release:        2%{?dist}
+Version:        20061220
+Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -12,8 +12,6 @@ URL:            http://fontforge.sourceforge.net/
 Source0:        http://dl.sf.net/fontforge/fontforge_full-%{version}.tar.bz2
 Source1:        fontforge.desktop
 Source2:        http://dl.sf.net/fontforge/fontforge_htdocs-%{docs_version}.tar.bz2
-Patch1:         fontforge-20061025-usFirstCharIndex.patch
-Patch2:         fontforge-20061025-fsSel.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       htmlview
@@ -41,8 +39,6 @@ fonts. It supports a range of font formats, including PostScript
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch1 -p1 -b .usFirstCharIndex
-%patch2 -p1 -b .fsSel
 
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
@@ -116,6 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Dec 22 2006 Roozbeh Pournader <roozbeh@farsiweb.info> - 20061220-1
+- Update to upstream 20061220
+
 * Sat Dec 09 2006 Roozbeh Pournader <roozbeh@farsiweb.info> - 20061025-2
 - Add patch to fix fsSelection problem with DejaVu ExtraLight
 
