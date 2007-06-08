@@ -1,17 +1,17 @@
-%define docs_version 20061220
+%define docs_version 20070501
 %define gettext_package FontForge
 
 Name:           fontforge
-Version:        20061220
+Version:        20070511
 Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
 License:        BSD
 URL:            http://fontforge.sourceforge.net/
-Source0:        http://dl.sf.net/fontforge/fontforge_full-%{version}.tar.bz2
+Source0:        http://downloads.sourceforge.net/fontforge/fontforge_full-%{version}.tar.bz2
 Source1:        fontforge.desktop
-Source2:        http://dl.sf.net/fontforge/fontforge_htdocs-%{docs_version}.tar.bz2
+Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{docs_version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       htmlview
@@ -46,6 +46,7 @@ rm -rf htdocs/scripts
 chmod 644 htdocs/*.gif
 chmod 644 htdocs/*.html
 chmod 644 htdocs/*.png
+rm -rf htdocs/flags/CVS
 mkdir cidmaps
 tar xzf htdocs/cidmaps.tgz -C cidmaps
 
@@ -80,7 +81,7 @@ desktop-file-install \
   --add-category X-Fedora                                  \
   %{SOURCE1}
 
-chmod -x $RPM_BUILD_ROOT%{_libdir}/pkgconfig/fontforge.pc
+rm -f $RPM_BUILD_ROOT%{_libdir}/pkgconfig/fontforge.pc
 
 # The fontforge makefiles install htdocs as well, but we
 # prefer to have them under the standard RPM location, so
@@ -104,7 +105,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS LICENSE htdocs
 %{_bindir}/*
 %{_libdir}/libg*.so.*
-%{_libdir}/pkgconfig/fontforge.pc
 %{_datadir}/applications/*fontforge.desktop
 %{_datadir}/fontforge
 %{_datadir}/pixmaps/fontforge.png
@@ -112,6 +112,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jun  7 2007 Kevin Fenzi <kevin@tummy.com> - 20070511-1
+- Update to upstream 20070511
+- Remove some leftover CVS bits
+- Remove useless .pc file. 
+
 * Fri Dec 22 2006 Roozbeh Pournader <roozbeh@farsiweb.info> - 20061220-1
 - Update to upstream 20061220
 
