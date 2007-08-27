@@ -3,7 +3,7 @@
 
 Name:           fontforge
 Version:        20070511
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -112,6 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Aug 26 2007 Kevin Fenzi <kevin@tummy.com> - 20070511-2
+- Rebuild for BuildID 
+
 * Thu Jun  7 2007 Kevin Fenzi <kevin@tummy.com> - 20070511-1
 - Update to upstream 20070511
 - Remove some leftover CVS bits
