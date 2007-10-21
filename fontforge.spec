@@ -2,8 +2,8 @@
 %define gettext_package FontForge
 
 Name:           fontforge
-Version:        20070511
-Release:        2%{?dist}
+Version:        20071002
+Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -112,13 +112,17 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Oct 21 2007 Nicolas Mailhot <nicolas.mailhot at laposte.net>
+☢ 20071002-1
+⚠ quick & dirty version bump to start working on F9 font packages
+
 * Sun Aug 26 2007 Kevin Fenzi <kevin@tummy.com> - 20070511-2
 - Rebuild for BuildID 
 
 * Thu Jun  7 2007 Kevin Fenzi <kevin@tummy.com> - 20070511-1
 - Update to upstream 20070511
 - Remove some leftover CVS bits
-- Remove useless .pc file. 
+- Remove useless .pc file.
 
 * Fri Dec 22 2006 Roozbeh Pournader <roozbeh@farsiweb.info> - 20061220-1
 - Update to upstream 20061220
