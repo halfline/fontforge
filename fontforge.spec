@@ -1,8 +1,8 @@
-%define docs_version 20070501
+%define docs_version 20071109
 %define gettext_package FontForge
 
 Name:           fontforge
-Version:        20071002
+Version:        20071110
 Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
@@ -112,6 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Dec 02 2007 Roozbeh Pournader <roozbeh@farsiweb.info> - 20071110-1
+- Update to upstream 20071110
+
 * Sun Oct 21 2007 Nicolas Mailhot <nicolas.mailhot at laposte.net>
 ☢ 20071002-1
 ⚠ quick & dirty version bump to start working on F9 font packages
