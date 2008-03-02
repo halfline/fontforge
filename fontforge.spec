@@ -1,8 +1,8 @@
-%define docs_version 20071109
+%define docs_version 20080203
 %define gettext_package FontForge
 
 Name:           fontforge
-Version:        20071110
+Version:        20080203
 Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
@@ -27,6 +27,7 @@ BuildRequires:  libuninameslist-devel
 BuildRequires:  libXt-devel
 BuildRequires:  xorg-x11-proto-devel
 BuildRequires:  gettext
+BuildRequires:  libtool
 
 Obsoletes:      pfaedit
 Provides:       pfaedit
@@ -36,6 +37,16 @@ FontForge (former PfaEdit) is a font editor for outline and bitmap
 fonts. It supports a range of font formats, including PostScript
 (ASCII and binary Type 1, some Type 3 and Type 0), TrueType, OpenType
 (Type2) and CID-keyed fonts.
+
+%package devel
+Summary: Development tools for fontforge
+Group: Development/Libraries
+Requires: %{name} = %{version}-%{release}
+Requires: pkgconfig
+
+%description devel
+This package includes the libraries and header files you will need
+to compile applications against fontforge.
 
 %prep
 %setup -q -n %{name}-%{version}
@@ -50,25 +61,18 @@ rm -rf htdocs/flags/CVS
 mkdir cidmaps
 tar xzf htdocs/cidmaps.tgz -C cidmaps
 
-sed -i -e 's/-rpath $(libdir)//' fontforge/Makefile*.in
-
 # Fix bad line terminators
 %{__sed} -i 's/\r//' htdocs/Big5.txt
 %{__sed} -i 's/\r//' htdocs/corpchar.txt
 
-
 %build
-export CPPFLAGS='-DDOCDIR=\"%{_docdir}/%{name}-%{version}/htdocs\"'
-export LIBS=-lgif
-%configure --with-regular-link --with-freetype-bytecode=no
-
-make %{?_smp_mflags}
-
+%configure --with-freetype-bytecode=no
+make LIBTOOL=/usr/bin/libtool %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-# make install DESTDIR=$RPM_BUILD_ROOT fails.
-%makeinstall
+make install DESTDIR=$RPM_BUILD_ROOT
+
 install -p -m 644 cidmaps/Adobe* $RPM_BUILD_ROOT%{_datadir}/fontforge
 rm -f $RPM_BUILD_ROOT%{_libdir}/libg{draw,unicode}.{la,so}
 
@@ -81,12 +85,14 @@ desktop-file-install \
   --add-category X-Fedora                                  \
   %{SOURCE1}
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/pkgconfig/fontforge.pc
-
 # The fontforge makefiles install htdocs as well, but we
 # prefer to have them under the standard RPM location, so
 # remove the extra copy
 rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/fontforge
+
+# remove unneeded .la and .a files
+rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
+rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
 
 # Find translations
 %find_lang %{gettext_package}
@@ -104,14 +110,23 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc AUTHORS LICENSE htdocs
 %{_bindir}/*
-%{_libdir}/libg*.so.*
+%{_libdir}/lib*.so.*
 %{_datadir}/applications/*fontforge.desktop
 %{_datadir}/fontforge
 %{_datadir}/pixmaps/fontforge.png
 %{_mandir}/man1/*.1*
 
+%files devel
+%defattr(-,root,root,-)
+%{_includedir}/fontforge/
+%{_libdir}/lib*.so
+%{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Sat Mar 01 2008 Kevin Fenzi <kevin@tummy.com> - 20080203-1
+- Update to upstream 20080203
+- Add new devel subpackage
+
 * Sun Dec 02 2007 Roozbeh Pournader <roozbeh@farsiweb.info> - 20071110-1
 - Update to upstream 20071110
 
