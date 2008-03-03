@@ -3,7 +3,7 @@
 
 Name:           fontforge
 Version:        20080203
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -14,7 +14,7 @@ Source1:        fontforge.desktop
 Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{docs_version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Requires:       htmlview
+Requires:       xdg-utils
 
 BuildRequires:  libjpeg-devel
 BuildRequires:  libtiff-devel
@@ -123,6 +123,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Sun Mar 02 2008 Kevin Fenzi <kevin@tummy.com> - 20080203-2
+- Change Requires from htmlview to xdg-utils (bz 312691)
+
 * Sat Mar 01 2008 Kevin Fenzi <kevin@tummy.com> - 20080203-1
 - Update to upstream 20080203
 - Add new devel subpackage
