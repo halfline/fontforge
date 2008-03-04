@@ -1,9 +1,9 @@
-%define docs_version 20080203
+%define docs_version 20080302
 %define gettext_package FontForge
 
 Name:           fontforge
-Version:        20080203
-Release:        2%{?dist}
+Version:        20080302
+Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -27,7 +27,6 @@ BuildRequires:  libuninameslist-devel
 BuildRequires:  libXt-devel
 BuildRequires:  xorg-x11-proto-devel
 BuildRequires:  gettext
-BuildRequires:  libtool
 
 Obsoletes:      pfaedit
 Provides:       pfaedit
@@ -67,7 +66,11 @@ tar xzf htdocs/cidmaps.tgz -C cidmaps
 
 %build
 %configure --with-freetype-bytecode=no
-make LIBTOOL=/usr/bin/libtool %{?_smp_mflags}
+
+sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
+sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
+
+make %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -123,6 +126,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Mon Mar 03 2008 Kevin Fenzi <kevin@tummy.com> - 20080302-1
+- Update to upstream 20080302
+
 * Sun Mar 02 2008 Kevin Fenzi <kevin@tummy.com> - 20080203-2
 - Change Requires from htmlview to xdg-utils (bz 312691)
 
