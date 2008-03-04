@@ -3,7 +3,7 @@
 
 Name:           fontforge
 Version:        20080302
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -126,6 +126,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Mon Mar 03 2008 Kevin Fenzi <kevin@tummy.com> - 20080302-2
+- Commit new sources
+
 * Mon Mar 03 2008 Kevin Fenzi <kevin@tummy.com> - 20080302-1
 - Update to upstream 20080302
 
