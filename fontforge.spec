@@ -2,8 +2,8 @@
 %define gettext_package FontForge
 
 Name:           fontforge
-Version:        20080302
-Release:        2%{?dist}
+Version:        20080309
+Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -126,6 +126,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Mon Mar 17 2008 Kevin Fenzi <kevin@tummy.com> - 20080309-1
+- Upgrade to 20080309
+- Fixes bug 437833
+
 * Mon Mar 03 2008 Kevin Fenzi <kevin@tummy.com> - 20080302-2
 - Commit new sources
 
