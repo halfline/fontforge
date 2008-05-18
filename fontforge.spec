@@ -1,8 +1,8 @@
-%define docs_version 20080302
+%define docs_version 20080429
 %define gettext_package FontForge
 
 Name:           fontforge
-Version:        20080309
+Version:        20080429
 Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
@@ -12,6 +12,7 @@ URL:            http://fontforge.sourceforge.net/
 Source0:        http://downloads.sourceforge.net/fontforge/fontforge_full-%{version}.tar.bz2
 Source1:        fontforge.desktop
 Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{docs_version}.tar.bz2
+Source3:	fontforge.xml
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       xdg-utils
@@ -100,13 +101,23 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
 # Find translations
 %find_lang %{gettext_package}
 
+mkdir -p $RPM_BUILD_ROOT/%{_datadir}/mime/packages
+
+install -p %{SOURCE3} $RPM_BUILD_ROOT/%{_datadir}/mime/packages/
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 
-%post -p /sbin/ldconfig
+%post
+update-desktop-database &> /dev/null || :
+update-mime-database %{_datadir}/mime &> /dev/null || :
+/sbin/ldconfig
 
-%postun -p /sbin/ldconfig
+%postun
+update-desktop-database &> /dev/null || :
+update-mime-database %{_datadir}/mime &> /dev/null || :
+/sbin/ldconfig
 
 
 %files -f %{gettext_package}.lang
@@ -118,6 +129,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/fontforge
 %{_datadir}/pixmaps/fontforge.png
 %{_mandir}/man1/*.1*
+%{_datadir}/mime/packages/fontforge.xml
 
 %files devel
 %defattr(-,root,root,-)
@@ -126,6 +138,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Fri May 16 2008 Kevin Fenzi <kevin@tummy.com> - 20080429-1
+- Upgrade to 20080429
+
+* Mon Mar 24 2008 Kevin Fenzi <kevin@tummy.com> - 20080309-2
+- Add mime info for .sfd files. Fixes 240669
+
 * Mon Mar 17 2008 Kevin Fenzi <kevin@tummy.com> - 20080309-1
 - Upgrade to 20080309
 - Fixes bug 437833
