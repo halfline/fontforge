@@ -1,8 +1,8 @@
-%define docs_version 20080429
+%define docs_version 20080824
 %define gettext_package FontForge
 
 Name:           fontforge
-Version:        20080429
+Version:        20080828
 Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
@@ -16,6 +16,7 @@ Source3:	fontforge.xml
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       xdg-utils
+Requires:	autotrace
 
 BuildRequires:  libjpeg-devel
 BuildRequires:  libtiff-devel
@@ -58,8 +59,6 @@ chmod 644 htdocs/*.gif
 chmod 644 htdocs/*.html
 chmod 644 htdocs/*.png
 rm -rf htdocs/flags/CVS
-mkdir cidmaps
-tar xzf htdocs/cidmaps.tgz -C cidmaps
 
 # Fix bad line terminators
 %{__sed} -i 's/\r//' htdocs/Big5.txt
@@ -77,7 +76,6 @@ make %{?_smp_mflags}
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
-install -p -m 644 cidmaps/Adobe* $RPM_BUILD_ROOT%{_datadir}/fontforge
 rm -f $RPM_BUILD_ROOT%{_libdir}/libg{draw,unicode}.{la,so}
 
 install -Dpm 644 htdocs/ffanvil32.png \
@@ -138,6 +136,11 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Wed Sep 03 2008 Kevin Fenzi <kevin@tummy.com> - 20080828-1
+- Upgrade to 20080828
+- Add Requires on autotrace. Fixes 460668
+- Confirm patch from 459451 is upstream here. 
+
 * Fri May 16 2008 Kevin Fenzi <kevin@tummy.com> - 20080429-1
 - Upgrade to 20080429
 
