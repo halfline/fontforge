@@ -1,8 +1,8 @@
-%define docs_version 20080824
+%define docs_version 20080927
 %define gettext_package FontForge
 
 Name:           fontforge
-Version:        20080828
+Version:        20080927
 Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
@@ -12,11 +12,11 @@ URL:            http://fontforge.sourceforge.net/
 Source0:        http://downloads.sourceforge.net/fontforge/fontforge_full-%{version}.tar.bz2
 Source1:        fontforge.desktop
 Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{docs_version}.tar.bz2
-Source3:	fontforge.xml
+Source3:        fontforge.xml
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       xdg-utils
-Requires:	autotrace
+Requires:       autotrace
 
 BuildRequires:  libjpeg-devel
 BuildRequires:  libtiff-devel
@@ -30,8 +30,6 @@ BuildRequires:  libXt-devel
 BuildRequires:  xorg-x11-proto-devel
 BuildRequires:  gettext
 
-Obsoletes:      pfaedit
-Provides:       pfaedit
 
 %description
 FontForge (former PfaEdit) is a font editor for outline and bitmap
@@ -119,10 +117,10 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %files -f %{gettext_package}.lang
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 %doc AUTHORS LICENSE htdocs
-%{_bindir}/*
-%{_libdir}/lib*.so.*
+%attr(0755,root,root) %{_bindir}/*
+%attr(0755,root,root) %{_libdir}/lib*.so.*
 %{_datadir}/applications/*fontforge.desktop
 %{_datadir}/fontforge
 %{_datadir}/pixmaps/fontforge.png
@@ -130,16 +128,22 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_datadir}/mime/packages/fontforge.xml
 
 %files devel
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 %{_includedir}/fontforge/
-%{_libdir}/lib*.so
+%attr(0755,root,root) %{_libdir}/lib*.so
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Sat Nov 08 2008 Nicolas Mailhot <nicolas.mailhot at laposte.net>
+- 20080927-1
+☢ quick & dirty version bump to start working on F11 font packages
+⟲ time to forget about pfaedit
+⤑ take care of rpmlint warnings
+
 * Wed Sep 03 2008 Kevin Fenzi <kevin@tummy.com> - 20080828-1
 - Upgrade to 20080828
 - Add Requires on autotrace. Fixes 460668
-- Confirm patch from 459451 is upstream here. 
+- Confirm patch from 459451 is upstream here.
 
 * Fri May 16 2008 Kevin Fenzi <kevin@tummy.com> - 20080429-1
 - Upgrade to 20080429
@@ -172,7 +176,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 ⚠ quick & dirty version bump to start working on F9 font packages
 
 * Sun Aug 26 2007 Kevin Fenzi <kevin@tummy.com> - 20070511-2
-- Rebuild for BuildID 
+- Rebuild for BuildID
 
 * Thu Jun  7 2007 Kevin Fenzi <kevin@tummy.com> - 20070511-1
 - Update to upstream 20070511
