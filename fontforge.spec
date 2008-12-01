@@ -3,7 +3,7 @@
 
 Name:           fontforge
 Version:        20080927
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -134,6 +134,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Mon Dec 01 2008 Ignacio Vazquez-Abrams <ivazqueznet+rpm@gmail.com> - 20080927-2
+- Rebuild for Python 2.6
+
 * Sat Nov 08 2008 Nicolas Mailhot <nicolas.mailhot at laposte.net>
 - 20080927-1
 ☢ quick & dirty version bump to start working on F11 font packages
