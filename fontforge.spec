@@ -1,9 +1,9 @@
-%define docs_version 20080927
+%define docs_version 20081215
 %define gettext_package FontForge
 
 Name:           fontforge
-Version:        20080927
-Release:        2%{?dist}
+Version:        20081215
+Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -13,6 +13,7 @@ Source0:        http://downloads.sourceforge.net/fontforge/fontforge_full-%{vers
 Source1:        fontforge.desktop
 Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{docs_version}.tar.bz2
 Source3:        fontforge.xml
+Patch1:         fontforge-20081215-pangocairo.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       xdg-utils
@@ -29,6 +30,8 @@ BuildRequires:  libuninameslist-devel
 BuildRequires:  libXt-devel
 BuildRequires:  xorg-x11-proto-devel
 BuildRequires:  gettext
+BuildRequires:  pango-devel
+BuildRequires:  cairo-devel
 
 
 %description
@@ -50,6 +53,8 @@ to compile applications against fontforge.
 %prep
 %setup -q -n %{name}-%{version}
 
+%patch1 -p1
+
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
 rm -rf htdocs/scripts
@@ -63,7 +68,7 @@ rm -rf htdocs/flags/CVS
 %{__sed} -i 's/\r//' htdocs/corpchar.txt
 
 %build
-%configure --with-freetype-bytecode=no
+%configure --with-freetype-bytecode=no --with-regular-link
 
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
@@ -134,6 +139,13 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Tue Dec 16 2008 Kevin Fenzi <kevin@tummy.com> - 20081215-1
+- Upgrade to 20081215
+- Build with cairo and pango
+
+* Mon Dec 01 2008 Kevin Fenzi <kevin@tummy.com> - 20081117-1
+- Upgrade to 20081117
+
 * Mon Dec 01 2008 Ignacio Vazquez-Abrams <ivazqueznet+rpm@gmail.com> - 20080927-2
 - Rebuild for Python 2.6
 
