@@ -3,7 +3,7 @@
 
 Name:           fontforge
 Version:        20081215
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -32,7 +32,7 @@ BuildRequires:  xorg-x11-proto-devel
 BuildRequires:  gettext
 BuildRequires:  pango-devel
 BuildRequires:  cairo-devel
-
+BuildRequires:  libspiro-devel
 
 %description
 FontForge (former PfaEdit) is a font editor for outline and bitmap
@@ -139,6 +139,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Wed Dec 17 2008 Kevin Fenzi <kevin@tummy.com> - 20081215-2
+- Add libspiro-devel to build with spiro
+
 * Tue Dec 16 2008 Kevin Fenzi <kevin@tummy.com> - 20081215-1
 - Upgrade to 20081215
 - Build with cairo and pango
