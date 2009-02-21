@@ -1,9 +1,11 @@
-%define docs_version 20081215
+%{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+
+%define docs_version 20081224
 %define gettext_package FontForge
 
 Name:           fontforge
-Version:        20081215
-Release:        2%{?dist}
+Version:        20081224
+Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -13,7 +15,6 @@ Source0:        http://downloads.sourceforge.net/fontforge/fontforge_full-%{vers
 Source1:        fontforge.desktop
 Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{docs_version}.tar.bz2
 Source3:        fontforge.xml
-Patch1:         fontforge-20081215-pangocairo.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       xdg-utils
@@ -33,6 +34,7 @@ BuildRequires:  gettext
 BuildRequires:  pango-devel
 BuildRequires:  cairo-devel
 BuildRequires:  libspiro-devel
+BuildRequires:  python-devel
 
 %description
 FontForge (former PfaEdit) is a font editor for outline and bitmap
@@ -53,8 +55,6 @@ to compile applications against fontforge.
 %prep
 %setup -q -n %{name}-%{version}
 
-%patch1 -p1
-
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
 rm -rf htdocs/scripts
@@ -68,7 +68,7 @@ rm -rf htdocs/flags/CVS
 %{__sed} -i 's/\r//' htdocs/corpchar.txt
 
 %build
-%configure --with-freetype-bytecode=no --with-regular-link
+%configure --with-freetype-bytecode=no --with-regular-link --enable-pyextension
 
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
@@ -131,6 +131,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_datadir}/pixmaps/fontforge.png
 %{_mandir}/man1/*.1*
 %{_datadir}/mime/packages/fontforge.xml
+%{python_sitearch}/fontforge-1.0-py2.6.egg-info
+%{python_sitearch}/fontforge.so
+%{python_sitearch}/psMat.so
 
 %files devel
 %defattr(0644,root,root,0755)
@@ -139,6 +142,16 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Fri Feb 20 2009 Kevin Fenzi <kevin@tummy.com> - 20081224-1
+- Upgrade to 20081224
+- Enable python bindings
+
+* Wed Jan 21 2009 Kevin Fenzi <kevin@tummy.com> - 20081215-4
+- Add python-devel to BuildRequires
+
+* Tue Dec 23 2008 Kevin Fenzi <kevin@tummy.com> - 20081215-3
+- Add patch to fix buffer overflow. Fixes 471538
+
 * Wed Dec 17 2008 Kevin Fenzi <kevin@tummy.com> - 20081215-2
 - Add libspiro-devel to build with spiro
 
