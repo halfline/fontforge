@@ -1,11 +1,11 @@
-%{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
-%define docs_version 20081224
-%define gettext_package FontForge
+%global docs_version 20081224
+%global gettext_package FontForge
 
 Name:           fontforge
 Version:        20081224
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -142,6 +142,10 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Mon Feb 23 2009 Nicolas Mailhot <nim at fedoraproject dot org>
+- 20081224-2
+— global-ization
+
 * Fri Feb 20 2009 Kevin Fenzi <kevin@tummy.com> - 20081224-1
 - Upgrade to 20081224
 - Enable python bindings
