@@ -1,11 +1,11 @@
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
-%global docs_version 20081224
+%global docs_version 20090224
 %global gettext_package FontForge
 
 Name:           fontforge
-Version:        20081224
-Release:        3%{?dist}
+Version:        20090224
+Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -142,6 +142,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Thu Feb 26 2009 Kevin Fenzi <kevin@tummy.com> - 20090224-1
+- Upgrade to 20090224
+
 * Tue Feb 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20081224-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
