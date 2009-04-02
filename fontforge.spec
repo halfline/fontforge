@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20090224
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -15,6 +15,7 @@ Source0:        http://downloads.sourceforge.net/fontforge/fontforge_full-%{vers
 Source1:        fontforge.desktop
 Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{docs_version}.tar.bz2
 Source3:        fontforge.xml
+Patch1:         fontforge-20090224-pythondl.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       xdg-utils
@@ -55,6 +56,8 @@ to compile applications against fontforge.
 %prep
 %setup -q -n %{name}-%{version}
 
+%patch1 -p1
+
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
 rm -rf htdocs/scripts
@@ -68,6 +71,8 @@ rm -rf htdocs/flags/CVS
 %{__sed} -i 's/\r//' htdocs/corpchar.txt
 
 %build
+export INSTALL='/usr/bin/install -p'
+
 %configure --with-freetype-bytecode=no --with-regular-link --enable-pyextension
 
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
@@ -142,6 +147,10 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Sun Apr 02 2009 Kevin Fenzi <kevin@tummy.com> - 20090224-2
+- Apply patch for python modules loading (fixes #489109)
+- use install -p to fix multiarch issue (fixes #480685)
+
 * Thu Feb 26 2009 Kevin Fenzi <kevin@tummy.com> - 20090224-1
 - Upgrade to 20090224
 
