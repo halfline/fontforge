@@ -1,11 +1,11 @@
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
-%global docs_version 20090224
+%global docs_version 20090408
 %global gettext_package FontForge
 
 Name:           fontforge
-Version:        20090224
-Release:        2%{?dist}
+Version:        20090408
+Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -147,6 +147,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Thu Apr 16 2009 Kevin Fenzi <kevin@tummy.com> - 20090408-1
+- Upgrade to 20090408
+
 * Sun Apr 02 2009 Kevin Fenzi <kevin@tummy.com> - 20090224-2
 - Apply patch for python modules loading (fixes #489109)
 - use install -p to fix multiarch issue (fixes #480685)
