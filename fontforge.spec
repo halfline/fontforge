@@ -1,10 +1,10 @@
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
-%global docs_version 20090408
+%global docs_version 20090622
 %global gettext_package FontForge
 
 Name:           fontforge
-Version:        20090408
+Version:        20090622
 Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
@@ -147,6 +147,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Tue Jul 16 2009 Kevin Fenzi <kevin@tummy.com> - 20090622-1
+- Upgrade to 20090622
+
 * Thu Apr 16 2009 Kevin Fenzi <kevin@tummy.com> - 20090408-1
 - Upgrade to 20090408
 
