@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20090923
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -16,6 +16,7 @@ Source1:        fontforge.desktop
 Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{docs_version}.tar.bz2
 Source3:        fontforge.xml
 Patch1:         fontforge-20090224-pythondl.patch
+Patch2:		fontforge-20090923-rel-path.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       xdg-utils
@@ -57,6 +58,7 @@ to compile applications against fontforge.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1
+%patch2 -p1
 
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
@@ -147,6 +149,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Wed Dec 30 2009 Kevin Fenzi <kevin@tummy.com> - 20090923-2
+- Add patch to fix relative paths for fontlint (fixes #530760)
+
 * Sun Nov 01 2009 Kevin Fenzi <kevin@tummy.com> - 20090923-1
 - Upgrade to 20090923
 
