@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20090923
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -149,6 +149,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Sat Mar 20 2010 Kevin Fenzi <kevin@tummy.com> - 20090923-3
+- Fix patch to fix python module (fixes #560277)
+
 * Wed Dec 30 2009 Kevin Fenzi <kevin@tummy.com> - 20090923-2
 - Add patch to fix relative paths for fontlint (fixes #530760)
 

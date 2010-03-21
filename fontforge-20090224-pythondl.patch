@@ -35,7 +35,7 @@ diff -Nur fontforge-20090224.orig/pyhook/loadfontforge.h fontforge-20090224/pyho
      if ( (lib = dlopen("libfontforge" SO_EXT,RTLD_LAZY))==NULL ) {
  #ifdef PREFIX
 -	lib = dlopen( PREFIX "/lib/" "libfontforge" SO_EXT,RTLD_LAZY);
-+	lib = dlopen( SOLIBDIR "libfontforge.so.1" SO_EXT,RTLD_LAZY);
++	lib = dlopen( SOLIBDIR "libfontforge.so.1" ,RTLD_LAZY);
  #endif
      }
      if ( lib==NULL ) {
