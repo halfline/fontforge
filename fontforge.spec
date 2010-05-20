@@ -1,11 +1,11 @@
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
-%global docs_version 20090914
+%global docs_version 20100429
 %global gettext_package FontForge
 
 Name:           fontforge
-Version:        20090923
-Release:        3%{?dist}
+Version:        20100501
+Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -16,7 +16,6 @@ Source1:        fontforge.desktop
 Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{docs_version}.tar.bz2
 Source3:        fontforge.xml
 Patch1:         fontforge-20090224-pythondl.patch
-Patch2:		fontforge-20090923-rel-path.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       xdg-utils
@@ -58,7 +57,6 @@ to compile applications against fontforge.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1
-%patch2 -p1
 
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
@@ -149,6 +147,12 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Wed May 19 2010 Kevin Fenzi <kevin@tummy.com> - 20100501-1
+- Update to 20100501
+
+* Fri Apr 30 2010 Kevin Fenzi <kevin@tummy.com> - 20100429-1
+- Update to 20100429
+
 * Sat Mar 20 2010 Kevin Fenzi <kevin@tummy.com> - 20090923-3
 - Fix patch to fix python module (fixes #560277)
 
