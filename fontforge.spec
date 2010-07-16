@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20100501
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -16,6 +16,8 @@ Source1:        fontforge.desktop
 Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{docs_version}.tar.bz2
 Source3:        fontforge.xml
 Patch1:         fontforge-20090224-pythondl.patch
+# See Bug https://bugzilla.redhat.com/show_bug.cgi?id=536920 
+Patch2:		fontforge-20100501-splinesets.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       xdg-utils
@@ -57,6 +59,7 @@ to compile applications against fontforge.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1
+%patch2 -p1
 
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
@@ -147,6 +150,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Fri Jul 16 2010 Kevin Fenzi <kevin@tummy.com> - 20100501-2
+- Add patch for bug 536920
+
 * Wed May 19 2010 Kevin Fenzi <kevin@tummy.com> - 20100501-1
 - Update to 20100501
 
