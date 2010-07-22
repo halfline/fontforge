@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20100501
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -150,6 +150,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Wed Jul 21 2010 David Malcolm <dmalcolm@redhat.com> - 20100501-3
+- Rebuilt for https://fedoraproject.org/wiki/Features/Python_2.7/MassRebuild
+
 * Fri Jul 16 2010 Kevin Fenzi <kevin@tummy.com> - 20100501-2
 - Add patch for bug 536920
 
