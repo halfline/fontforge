@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20100501
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -18,6 +18,7 @@ Source3:        fontforge.xml
 Patch1:         fontforge-20090224-pythondl.patch
 # See Bug https://bugzilla.redhat.com/show_bug.cgi?id=536920 
 Patch2:		fontforge-20100501-splinesets.patch
+Patch3:		fontforge-20100501-python27.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       xdg-utils
@@ -60,6 +61,7 @@ to compile applications against fontforge.
 
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
@@ -139,7 +141,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_datadir}/pixmaps/fontforge.png
 %{_mandir}/man1/*.1*
 %{_datadir}/mime/packages/fontforge.xml
-%{python_sitearch}/fontforge-1.0-py2.6.egg-info
+%{python_sitearch}/fontforge-1.0-py2.7.egg-info
 %{python_sitearch}/fontforge.so
 %{python_sitearch}/psMat.so
 
@@ -150,6 +152,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Wed Jul 28 2010 Kevin Fenzi <kevin@tummy.com> - 20100501-4
+- Add patch to build with python 2.7
+
 * Wed Jul 21 2010 David Malcolm <dmalcolm@redhat.com> - 20100501-3
 - Rebuilt for https://fedoraproject.org/wiki/Features/Python_2.7/MassRebuild
 
