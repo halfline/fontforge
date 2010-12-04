@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20100501
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -19,6 +19,7 @@ Patch1:         fontforge-20090224-pythondl.patch
 # See Bug https://bugzilla.redhat.com/show_bug.cgi?id=536920 
 Patch2:		fontforge-20100501-splinesets.patch
 Patch3:		fontforge-20100501-python27.patch
+Patch4:         fontforge-20100501-CVE-2010-4259.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       xdg-utils
@@ -62,6 +63,7 @@ to compile applications against fontforge.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
@@ -152,6 +154,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Sat Dec 04 2010 Kevin Fenzi <kevin@tummy.com> - 20100501-5
+- Add patch for CVE-2010-4259
+
 * Wed Jul 28 2010 Kevin Fenzi <kevin@tummy.com> - 20100501-4
 - Add patch to build with python 2.7
 
