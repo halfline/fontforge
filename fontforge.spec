@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20100501
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -154,6 +154,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20100501-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Sat Dec 04 2010 Kevin Fenzi <kevin@tummy.com> - 20100501-5
 - Add patch for CVE-2010-4259
 
