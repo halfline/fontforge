@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20100501
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -20,6 +20,7 @@ Patch1:         fontforge-20090224-pythondl.patch
 Patch2:		fontforge-20100501-splinesets.patch
 Patch3:		fontforge-20100501-python27.patch
 Patch4:         fontforge-20100501-CVE-2010-4259.patch
+Patch5:		fontforge-20100501-unicode-crash.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       xdg-utils
@@ -64,6 +65,7 @@ to compile applications against fontforge.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
@@ -154,6 +156,10 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Wed Feb 16 2011 Kevin Fenzi <kevin@tummy.com> - 20100501-7
+- Fix patch for python. Fixes bug #677917
+- Add patch for unicode glyph crash. Fixes bug #631172
+
 * Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20100501-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
