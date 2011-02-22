@@ -1,11 +1,11 @@
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
-%global docs_version 20100429
+%global docs_version 20110221
 %global gettext_package FontForge
 
 Name:           fontforge
-Version:        20100501
-Release:        7%{?dist}
+Version:        20110222
+Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -16,11 +16,6 @@ Source1:        fontforge.desktop
 Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{docs_version}.tar.bz2
 Source3:        fontforge.xml
 Patch1:         fontforge-20090224-pythondl.patch
-# See Bug https://bugzilla.redhat.com/show_bug.cgi?id=536920 
-Patch2:		fontforge-20100501-splinesets.patch
-Patch3:		fontforge-20100501-python27.patch
-Patch4:         fontforge-20100501-CVE-2010-4259.patch
-Patch5:		fontforge-20100501-unicode-crash.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       xdg-utils
@@ -62,10 +57,6 @@ to compile applications against fontforge.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
 
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
@@ -156,6 +147,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Tue Feb 22 2011 Kevin Fenzi <kevin@tummy.com> - 20110222-1
+- Update to 20110222
+
 * Wed Feb 16 2011 Kevin Fenzi <kevin@tummy.com> - 20100501-7
 - Fix patch for python. Fixes bug #677917
 - Add patch for unicode glyph crash. Fixes bug #631172
