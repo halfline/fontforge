@@ -5,16 +5,14 @@
 
 Name:           fontforge
 Version:        20110222
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
 License:        BSD
 URL:            http://fontforge.sourceforge.net/
 Source0:        http://downloads.sourceforge.net/fontforge/fontforge_full-%{version}.tar.bz2
-Source1:        fontforge.desktop
 Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{docs_version}.tar.bz2
-Source3:        fontforge.xml
 Patch1:         fontforge-20090224-pythondl.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -86,14 +84,14 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/libg{draw,unicode}.{la,so}
 
-install -Dpm 644 htdocs/ffanvil32.png \
+install -Dpm 644 Packaging/fontforge.png \
   $RPM_BUILD_ROOT%{_datadir}/pixmaps/fontforge.png
 
 desktop-file-install \
   --vendor fedora                                          \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications            \
   --add-category X-Fedora                                  \
-  %{SOURCE1}
+  Packaging/fontforge.desktop
 
 # The fontforge makefiles install htdocs as well, but we
 # prefer to have them under the standard RPM location, so
@@ -109,7 +107,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
 
 mkdir -p $RPM_BUILD_ROOT/%{_datadir}/mime/packages
 
-install -p %{SOURCE3} $RPM_BUILD_ROOT/%{_datadir}/mime/packages/
+install -p Packaging/fontforge.xml $RPM_BUILD_ROOT/%{_datadir}/mime/packages/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -147,6 +145,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Thu Mar 17 2011 Kevin Fenzi <kevin@tummy.com> - 20110222-2
+- Drop sources that are now upstream. Fixes bug #688470
+
 * Tue Feb 22 2011 Kevin Fenzi <kevin@tummy.com> - 20110222-1
 - Update to 20110222
 
