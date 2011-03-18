@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20100501
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -21,6 +21,7 @@ Patch2:		fontforge-20100501-splinesets.patch
 Patch3:		fontforge-20100501-python27.patch
 Patch4:         fontforge-20100501-CVE-2010-4259.patch
 Patch5:		fontforge-20100501-unicode-crash.patch
+Patch6:		fontforge-20100501-select-points-crash.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       xdg-utils
@@ -66,6 +67,7 @@ to compile applications against fontforge.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
@@ -156,6 +158,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Tue Mar 01 2011 Paul Williams <paul@frixxon.co.uk> - 20100501-8
+- Add patch for charview crash. Fixes bug #660376
+
 * Wed Feb 16 2011 Kevin Fenzi <kevin@tummy.com> - 20100501-7
 - Fix patch for python. Fixes bug #677917
 - Add patch for unicode glyph crash. Fixes bug #631172
