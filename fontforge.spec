@@ -1,27 +1,20 @@
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
-%global docs_version 20100429
+%global docs_version 20110221
 %global gettext_package FontForge
 
 Name:           fontforge
-Version:        20100501
-Release:        8%{?dist}
+Version:        20110222
+Release:        3%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
 License:        BSD
 URL:            http://fontforge.sourceforge.net/
 Source0:        http://downloads.sourceforge.net/fontforge/fontforge_full-%{version}.tar.bz2
-Source1:        fontforge.desktop
 Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{docs_version}.tar.bz2
-Source3:        fontforge.xml
 Patch1:         fontforge-20090224-pythondl.patch
-# See Bug https://bugzilla.redhat.com/show_bug.cgi?id=536920 
-Patch2:		fontforge-20100501-splinesets.patch
-Patch3:		fontforge-20100501-python27.patch
-Patch4:         fontforge-20100501-CVE-2010-4259.patch
-Patch5:		fontforge-20100501-unicode-crash.patch
-Patch6:		fontforge-20100501-select-points-crash.patch
+Patch2:         fontforge-20100501-select-points-crash.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       xdg-utils
@@ -64,10 +57,6 @@ to compile applications against fontforge.
 
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
 
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
@@ -97,14 +86,14 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/libg{draw,unicode}.{la,so}
 
-install -Dpm 644 htdocs/ffanvil32.png \
+install -Dpm 644 Packaging/fontforge.png \
   $RPM_BUILD_ROOT%{_datadir}/pixmaps/fontforge.png
 
 desktop-file-install \
   --vendor fedora                                          \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications            \
   --add-category X-Fedora                                  \
-  %{SOURCE1}
+  Packaging/fontforge.desktop
 
 # The fontforge makefiles install htdocs as well, but we
 # prefer to have them under the standard RPM location, so
@@ -120,7 +109,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
 
 mkdir -p $RPM_BUILD_ROOT/%{_datadir}/mime/packages
 
-install -p %{SOURCE3} $RPM_BUILD_ROOT/%{_datadir}/mime/packages/
+install -p Packaging/fontforge.xml $RPM_BUILD_ROOT/%{_datadir}/mime/packages/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -158,8 +147,14 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
-* Tue Mar 01 2011 Paul Williams <paul@frixxon.co.uk> - 20100501-8
+* Thu Mar 31 2011 Paul Flo Williams <paul@frixxon.co.uk> - 20110222-3
 - Add patch for charview crash. Fixes bug #660376
+
+* Thu Mar 17 2011 Kevin Fenzi <kevin@tummy.com> - 20110222-2
+- Drop sources that are now upstream. Fixes bug #688470
+
+* Tue Feb 22 2011 Kevin Fenzi <kevin@tummy.com> - 20110222-1
+- Update to 20110222
 
 * Wed Feb 16 2011 Kevin Fenzi <kevin@tummy.com> - 20100501-7
 - Fix patch for python. Fixes bug #677917
