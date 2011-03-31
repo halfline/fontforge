@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20110222
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -14,6 +14,7 @@ URL:            http://fontforge.sourceforge.net/
 Source0:        http://downloads.sourceforge.net/fontforge/fontforge_full-%{version}.tar.bz2
 Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{docs_version}.tar.bz2
 Patch1:         fontforge-20090224-pythondl.patch
+Patch2:         fontforge-20100501-select-points-crash.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       xdg-utils
@@ -55,6 +56,7 @@ to compile applications against fontforge.
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1
+%patch2 -p1
 
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
@@ -145,6 +147,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Thu Mar 31 2011 Paul Flo Williams <paul@frixxon.co.uk> - 20110222-3
+- Add patch for charview crash. Fixes bug #660376
+
 * Thu Mar 17 2011 Kevin Fenzi <kevin@tummy.com> - 20110222-2
 - Drop sources that are now upstream. Fixes bug #688470
 
