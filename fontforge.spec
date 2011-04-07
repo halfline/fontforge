@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20110222
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -15,6 +15,7 @@ Source0:        http://downloads.sourceforge.net/fontforge/fontforge_full-%{vers
 Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{docs_version}.tar.bz2
 Patch1:         fontforge-20090224-pythondl.patch
 Patch2:         fontforge-20100501-select-points-crash.patch
+Patch3:	        fontforge-20110222-multilib.patch	
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       xdg-utils
@@ -57,6 +58,7 @@ to compile applications against fontforge.
 
 %patch1 -p1
 %patch2 -p1
+%patch3 -p0
 
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
@@ -147,6 +149,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Thu Apr 07 2011 Parag Nemade <paragn AT fedoraproject.org> - 2011022-4
+- Add patch for multilib. Fixes bug #694409
+
 * Thu Mar 31 2011 Paul Flo Williams <paul@frixxon.co.uk> - 20110222-3
 - Add patch for charview crash. Fixes bug #660376
 
