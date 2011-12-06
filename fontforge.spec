@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20110222
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -149,6 +149,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Tue Dec 06 2011 Adam Jackson <ajax@redhat.com> - 20110222-5
+- Rebuild for new libpng
+
 * Thu Apr 07 2011 Parag Nemade <paragn AT fedoraproject.org> - 2011022-4
 - Add patch for multilib. Fixes bug #694409
 
