@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20110222
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -149,6 +149,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20110222-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Tue Dec 06 2011 Adam Jackson <ajax@redhat.com> - 20110222-5
 - Rebuild for new libpng
 
