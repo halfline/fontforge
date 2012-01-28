@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20110222
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -16,6 +16,8 @@ Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{do
 Patch1:         fontforge-20090224-pythondl.patch
 Patch2:         fontforge-20100501-select-points-crash.patch
 Patch3:	        fontforge-20110222-multilib.patch	
+#upstream patch
+Patch4:         fontforge-20110222-libpng15.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       xdg-utils
@@ -59,6 +61,7 @@ to compile applications against fontforge.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p0
+%patch4 -p1
 
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
@@ -149,6 +152,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Sat Jan 28 2012 Parag Nemade <paragn AT fedoraproject.org> - 2011022-7
+- Add patch for libpng15
+
 * Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20110222-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
