@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20110222
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -152,6 +152,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Sun May 06 2012 Kevin Fenzi <kevin@scrye.com> - 20110222-8
+- Rebuild for new libtiff. 
+
 * Sat Jan 28 2012 Parag Nemade <paragn AT fedoraproject.org> - 2011022-7
 - Add patch for libpng15
 
