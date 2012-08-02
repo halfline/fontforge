@@ -1,23 +1,19 @@
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
-%global docs_version 20110221
+%global archive_version 20120731-b
 %global gettext_package FontForge
 
 Name:           fontforge
-Version:        20110222
-Release:        9%{?dist}
+Version:        20120731b
+Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
 License:        BSD
 URL:            http://fontforge.sourceforge.net/
-Source0:        http://downloads.sourceforge.net/fontforge/fontforge_full-%{version}.tar.bz2
-Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{docs_version}.tar.bz2
+Source0:        http://downloads.sourceforge.net/fontforge/fontforge_full-%{archive_version}.tar.bz2
+Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{archive_version}.tar.bz2
 Patch1:         fontforge-20090224-pythondl.patch
-Patch2:         fontforge-20100501-select-points-crash.patch
-Patch3:	        fontforge-20110222-multilib.patch	
-#upstream patch
-Patch4:         fontforge-20110222-libpng15.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       xdg-utils
@@ -56,12 +52,9 @@ This package includes the libraries and header files you will need
 to compile applications against fontforge.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{name}-%{archive_version}
 
 %patch1 -p1
-%patch2 -p1
-%patch3 -p0
-%patch4 -p1
 
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
@@ -91,8 +84,8 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/libg{draw,unicode}.{la,so}
 
-install -Dpm 644 Packaging/fontforge.png \
-  $RPM_BUILD_ROOT%{_datadir}/pixmaps/fontforge.png
+install -Dpm 644 Packaging/icons/scalable/apps/fontforge.svg \
+  $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/scalable/apps/fontforge.svg
 
 desktop-file-install \
   --vendor fedora                                          \
@@ -123,13 +116,20 @@ rm -rf $RPM_BUILD_ROOT
 %post
 update-desktop-database &> /dev/null || :
 update-mime-database %{_datadir}/mime &> /dev/null || :
+/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 /sbin/ldconfig
 
 %postun
 update-desktop-database &> /dev/null || :
 update-mime-database %{_datadir}/mime &> /dev/null || :
+if [ $1 -eq 0 ] ; then
+    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
+    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+fi
 /sbin/ldconfig
 
+%posttrans
+/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %files -f %{gettext_package}.lang
 %defattr(0644,root,root,0755)
@@ -138,7 +138,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %attr(0755,root,root) %{_libdir}/lib*.so.*
 %{_datadir}/applications/*fontforge.desktop
 %{_datadir}/fontforge
-%{_datadir}/pixmaps/fontforge.png
+%{_datadir}/icons/hicolor/*/apps/fontforge.*
 %{_mandir}/man1/*.1*
 %{_datadir}/mime/packages/fontforge.xml
 %{python_sitearch}/fontforge-1.0-py2.7.egg-info
@@ -152,6 +152,12 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Thu Aug 02 2012 Paul Flo Williams <paul@frixxon.co.uk> - 20120731b-1
+- Update to 20120731b (problem with 64-bit builds in first release)
+
+* Thu Aug 02 2012 Paul Flo Williams <paul@frixxon.co.uk> - 20120731-1
+- Update to 20120731
+
 * Thu Jul 19 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20110222-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
