@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20120731b
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -14,7 +14,6 @@ URL:            http://fontforge.sourceforge.net/
 Source0:        http://downloads.sourceforge.net/fontforge/fontforge_full-%{archive_version}.tar.bz2
 Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{archive_version}.tar.bz2
 Patch1:         fontforge-20090224-pythondl.patch
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:       xdg-utils
 Requires:       autotrace
@@ -33,7 +32,7 @@ BuildRequires:  gettext
 BuildRequires:  pango-devel
 BuildRequires:  cairo-devel
 BuildRequires:  libspiro-devel
-BuildRequires:  python-devel
+BuildRequires:  python2-devel
 
 %description
 FontForge (former PfaEdit) is a font editor for outline and bitmap
@@ -79,7 +78,6 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 make %{?_smp_mflags}
 
 %install
-rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
 rm -f $RPM_BUILD_ROOT%{_libdir}/libg{draw,unicode}.{la,so}
@@ -109,10 +107,6 @@ mkdir -p $RPM_BUILD_ROOT/%{_datadir}/mime/packages
 
 install -p Packaging/fontforge.xml $RPM_BUILD_ROOT/%{_datadir}/mime/packages/
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
-
 %post
 update-desktop-database &> /dev/null || :
 update-mime-database %{_datadir}/mime &> /dev/null || :
@@ -132,7 +126,7 @@ fi
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %files -f %{gettext_package}.lang
-%defattr(0644,root,root,0755)
+%defattr(-,root,root,-)
 %doc AUTHORS LICENSE htdocs
 %attr(0755,root,root) %{_bindir}/*
 %attr(0755,root,root) %{_libdir}/lib*.so.*
@@ -152,6 +146,9 @@ fi
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Tue Nov 27 2012 Kevin Fenzi <kevin@scrye.com> 20120731b-2
+- Cosmetic cleanups for bug 880472
+
 * Thu Aug 02 2012 Paul Flo Williams <paul@frixxon.co.uk> - 20120731b-1
 - Update to 20120731b (problem with 64-bit builds in first release)
 
