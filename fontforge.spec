@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20120731b
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -146,6 +146,9 @@ fi
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Fri Jan 18 2013 Adam Tkac <atkac redhat com> - 20120731b-3
+- rebuild due to "jpeg8-ABI" feature drop
+
 * Tue Nov 27 2012 Kevin Fenzi <kevin@scrye.com> 20120731b-2
 - Cosmetic cleanups for bug 880472
 
