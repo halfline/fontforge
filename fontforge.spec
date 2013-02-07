@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20120731b
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -14,6 +14,7 @@ URL:            http://fontforge.sourceforge.net/
 Source0:        http://downloads.sourceforge.net/fontforge/fontforge_full-%{archive_version}.tar.bz2
 Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{archive_version}.tar.bz2
 Patch1:         fontforge-20090224-pythondl.patch
+Patch2:         fontforge-20120731-pdf-bounds.patch
 
 Requires:       xdg-utils
 Requires:       autotrace
@@ -54,6 +55,7 @@ to compile applications against fontforge.
 %setup -q -n %{name}-%{archive_version}
 
 %patch1 -p1
+%patch2 -p1
 
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
@@ -146,6 +148,9 @@ fi
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Thu Feb 07 2013 Paul Flo Williams <paul@frixxon.co.uk> - 20120731b-4
+- Patch for bug #902089, out-of-bounds errors while reading PDFs
+
 * Fri Jan 18 2013 Adam Tkac <atkac redhat com> - 20120731b-3
 - rebuild due to "jpeg8-ABI" feature drop
 
