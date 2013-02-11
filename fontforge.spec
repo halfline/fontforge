@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20120731b
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -88,7 +88,6 @@ install -Dpm 644 Packaging/icons/scalable/apps/fontforge.svg \
   $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/scalable/apps/fontforge.svg
 
 desktop-file-install \
-  --vendor fedora                                          \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications            \
   --add-category X-Fedora                                  \
   Packaging/fontforge.desktop
@@ -148,6 +147,9 @@ fi
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Mon Feb 11 2013 Paul Flo Williams <paul@frixxon.co.uk> - 20120731b-5
+- De-vendorize desktop installation
+
 * Thu Feb 07 2013 Paul Flo Williams <paul@frixxon.co.uk> - 20120731b-4
 - Patch for bug #902089, out-of-bounds errors while reading PDFs
 
