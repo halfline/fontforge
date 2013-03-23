@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20120731b
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -15,6 +15,8 @@ Source0:        http://downloads.sourceforge.net/fontforge/fontforge_full-%{arch
 Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{archive_version}.tar.bz2
 Patch1:         fontforge-20090224-pythondl.patch
 Patch2:         fontforge-20120731-pdf-bounds.patch
+# aarch64 support until it upstreams
+Patch3:         http://ausil.fedorapeople.org/aarch64/fontforge/fontforge-aarch64.patch
 
 Requires:       xdg-utils
 Requires:       autotrace
@@ -56,6 +58,7 @@ to compile applications against fontforge.
 
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
@@ -71,7 +74,6 @@ rm -rf htdocs/flags/CVS
 
 %build
 export INSTALL='/usr/bin/install -p'
-
 %configure --with-freetype-bytecode=no --with-regular-link --enable-pyextension
 
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
@@ -147,6 +149,9 @@ fi
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Sat Mar 23 2013 Kevin Fenzi <kevin@scrye.com> 20120731b-6
+- Add fix for aarch64 support. Fixes bug #925354
+
 * Mon Feb 11 2013 Paul Flo Williams <paul@frixxon.co.uk> - 20120731b-5
 - De-vendorize desktop installation
 
