@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20120731b
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -17,6 +17,7 @@ Patch1:         fontforge-20090224-pythondl.patch
 Patch2:         fontforge-20120731-pdf-bounds.patch
 # aarch64 support until it upstreams
 Patch3:         http://ausil.fedorapeople.org/aarch64/fontforge/fontforge-aarch64.patch
+Patch4:         fontforge-20120731-pdf-filters.patch
 
 Requires:       xdg-utils
 Requires:       autotrace
@@ -59,6 +60,7 @@ to compile applications against fontforge.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 mkdir htdocs
 tar xjf %{SOURCE2} -C htdocs
@@ -149,6 +151,9 @@ fi
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Mon Apr 15 2013 Paul Flo Williams <paul@frixxon.co.uk> - 20120731b-7
+- Don't crash on PDFs with filters we can't understand. Fixes bug #906492
+
 * Sat Mar 23 2013 Kevin Fenzi <kevin@scrye.com> 20120731b-6
 - Add fix for aarch64 support. Fixes bug #925354
 
