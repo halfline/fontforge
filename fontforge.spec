@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20120731b
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -151,6 +151,9 @@ fi
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20120731b-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
 * Mon Apr 15 2013 Paul Flo Williams <paul@frixxon.co.uk> - 20120731b-7
 - Don't crash on PDFs with filters we can't understand. Fixes bug #906492
 
