@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20120731b
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -74,8 +74,17 @@ rm -rf htdocs/flags/CVS
 %{__sed} -i 's/\r//' htdocs/Big5.txt
 %{__sed} -i 's/\r//' htdocs/corpchar.txt
 
+# Fix compile time link error messages by removing makefile rule
+%{__sed} -i '40d' Makefile.dynamic.in
+
+# Fix compile time install error messages by removing makefile rule
+%{__sed} -i '95,96d' Makefile.dynamic.in
+
+
 %build
 export INSTALL='/usr/bin/install -p'
+export CFLAGS="%{optflags} -Wstrict-aliasing"
+
 %configure --with-freetype-bytecode=no --with-regular-link --enable-pyextension
 
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
@@ -151,6 +160,11 @@ fi
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Thu Aug 22 2013 Parag Nemade <pnemade AT redhat DOT com> - 20120731b-9
+- Added cflags -Wstrict-aliasing
+- Fixed some compile-time errors from invalid Makefile rules
+- Fixed bogus date in changelog
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20120731b-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
@@ -242,13 +256,13 @@ fi
 * Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20090622-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
-* Tue Jul 16 2009 Kevin Fenzi <kevin@tummy.com> - 20090622-1
+* Thu Jul 16 2009 Kevin Fenzi <kevin@tummy.com> - 20090622-1
 - Upgrade to 20090622
 
 * Thu Apr 16 2009 Kevin Fenzi <kevin@tummy.com> - 20090408-1
 - Upgrade to 20090408
 
-* Sun Apr 02 2009 Kevin Fenzi <kevin@tummy.com> - 20090224-2
+* Thu Apr 02 2009 Kevin Fenzi <kevin@tummy.com> - 20090224-2
 - Apply patch for python modules loading (fixes #489109)
 - use install -p to fix multiarch issue (fixes #480685)
 
@@ -348,7 +362,7 @@ fi
 - Update to 20061019
 
 * Thu Oct 05 2006 Christian Iseli <Christian.Iseli@licr.org> 20060822-2
- - rebuilt for unwind info generation, broken in gcc-4.1.1-21
+- rebuilt for unwind info generation, broken in gcc-4.1.1-21
 
 * Thu Sep 21 2006 Kevin Fenzi <kevin@tummy.com> - 20060822-1
 - Update to 20060822
