@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20120731b
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -83,7 +83,7 @@ rm -rf htdocs/flags/CVS
 
 %build
 export INSTALL='/usr/bin/install -p'
-export CFLAGS="%{optflags} -Wstrict-aliasing"
+export CFLAGS="%{optflags} -fno-strict-aliasing"
 
 %configure --with-freetype-bytecode=no --with-regular-link --enable-pyextension
 
@@ -118,8 +118,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
 %find_lang %{gettext_package}
 
 mkdir -p $RPM_BUILD_ROOT/%{_datadir}/mime/packages
-
-install -p Packaging/fontforge.xml $RPM_BUILD_ROOT/%{_datadir}/mime/packages/
+install -m 644 -p Packaging/fontforge.xml $RPM_BUILD_ROOT/%{_datadir}/mime/packages/
 
 %post
 update-desktop-database &> /dev/null || :
@@ -140,10 +139,9 @@ fi
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %files -f %{gettext_package}.lang
-%defattr(-,root,root,-)
 %doc AUTHORS LICENSE htdocs
-%attr(0755,root,root) %{_bindir}/*
-%attr(0755,root,root) %{_libdir}/lib*.so.*
+%{_bindir}/*
+%{_libdir}/lib*.so.*
 %{_datadir}/applications/*fontforge.desktop
 %{_datadir}/fontforge
 %{_datadir}/icons/hicolor/*/apps/fontforge.*
@@ -154,12 +152,17 @@ fi
 %{python_sitearch}/psMat.so
 
 %files devel
-%defattr(0644,root,root,0755)
 %{_includedir}/fontforge/
-%attr(0755,root,root) %{_libdir}/lib*.so
+%{_libdir}/lib*.so
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Mon Sep 02 2013 Parag Nemade <pnemade AT redhat DOT com> - 20120731b-10
+- Revert previously added -Wstrict-aliasing cflags
+- We actaully need -fno-strict-aliasing (rh#903288)
+- Remove %%defattr() (rh#1003518)
+- fontforge.xml should not be executable (rh#1003518)
+
 * Thu Aug 22 2013 Parag Nemade <pnemade AT redhat DOT com> - 20120731b-9
 - Added cflags -Wstrict-aliasing
 - Fixed some compile-time errors from invalid Makefile rules
