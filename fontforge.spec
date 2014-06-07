@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20120731b
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -157,6 +157,9 @@ fi
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20120731b-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Mon Sep 02 2013 Parag Nemade <pnemade AT redhat DOT com> - 20120731b-10
 - Revert previously added -Wstrict-aliasing cflags
 - We actaully need -fno-strict-aliasing (rh#903288)
