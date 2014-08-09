@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20120731b
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -122,21 +122,23 @@ install -m 644 -p Packaging/fontforge.xml $RPM_BUILD_ROOT/%{_datadir}/mime/packa
 
 %post
 update-desktop-database &> /dev/null || :
-update-mime-database %{_datadir}/mime &> /dev/null || :
 /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
+/bin/touch --no-create %{_datadir}/mime/packages &> /dev/null || :
 /sbin/ldconfig
 
 %postun
 update-desktop-database &> /dev/null || :
-update-mime-database %{_datadir}/mime &> /dev/null || :
 if [ $1 -eq 0 ] ; then
     /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
     /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+    /bin/touch --no-create %{_datadir}/mime/packages &> /dev/null || :
+    /usr/bin/update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 fi
 /sbin/ldconfig
 
 %posttrans
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+/usr/bin/update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 %files -f %{gettext_package}.lang
 %doc AUTHORS LICENSE htdocs
@@ -157,6 +159,9 @@ fi
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Sat Aug 09 2014 Rex Dieter <rdieter@fedoraproject.org> 20120731b-12
+- update mime scriptlet
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20120731b-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
