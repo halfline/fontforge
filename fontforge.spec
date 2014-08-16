@@ -5,7 +5,7 @@
 
 Name:           fontforge
 Version:        20120731b
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Outline and bitmap font editor
 
 Group:          Applications/Publishing
@@ -159,6 +159,9 @@ fi
 %{_libdir}/pkgconfig/*.pc
 
 %changelog
+* Sat Aug 16 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20120731b-13
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
 * Sat Aug 09 2014 Rex Dieter <rdieter@fedoraproject.org> 20120731b-12
 - update mime scriptlet
 
