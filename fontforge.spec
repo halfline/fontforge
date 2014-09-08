@@ -11,6 +11,7 @@ License:        GPLv3+
 URL:            http://fontforge.github.io/
 Source0:        https://github.com/fontforge/fontforge/archive/%{archive_version}.tar.gz
 Source1:        http://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=snapshot;h=%{gnulib_githead};sf=tgz;name=gnulib-%{gnulib_githead}.tar.gz
+Patch0:         fontforge-20140813-use-system-uthash.patch
 
 Requires:       xdg-utils
 Requires:       autotrace
@@ -34,6 +35,7 @@ BuildRequires:  python2-devel
 BuildRequires:  libtool-ltdl-devel
 BuildRequires:  readline-devel
 BuildRequires:  python-ipython
+BuildRequires:  uthash-devel
 
 Provides: bundled(gnulib)
 
@@ -64,6 +66,8 @@ This package contains documentation files for %{name}.
 %prep
 %setup -q -n %{name}-%{archive_version}
 tar xzf %{SOURCE1}
+
+%patch0 -p0
 
 sed -i -e '/^#!\//, 1d' pycontrib/graphicore.py
 sed -i -e '/^#!\//, 1d' pycontrib/webcollab.py
@@ -159,6 +163,7 @@ fi
 %changelog
 * Mon Sep 08 2014 Parag Nemade <pnemade AT redhat DOT com> - 20140813-2
 - Add gnulib source for bootstrap as koji don't have network
+- Patch Makefile.am to use system uthash-devel
 
 * Mon Sep 08 2014 Parag Nemade <pnemade AT redhat DOT com> - 20140813-1
 - Update to fontforge 2.0 snapshot 20140813
