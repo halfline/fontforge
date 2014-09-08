@@ -1,26 +1,18 @@
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
-
-%global archive_version 20120731-b
+%global archive_version 20140813
 %global gettext_package FontForge
 
 Name:           fontforge
-Version:        20120731b
-Release:        13%{?dist}
+Version:        20140813
+Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
-Group:          Applications/Publishing
-License:        BSD
-URL:            http://fontforge.sourceforge.net/
-Source0:        http://downloads.sourceforge.net/fontforge/fontforge_full-%{archive_version}.tar.bz2
-Source2:        http://downloads.sourceforge.net/fontforge/fontforge_htdocs-%{archive_version}.tar.bz2
-Patch1:         fontforge-20090224-pythondl.patch
-Patch2:         fontforge-20120731-pdf-bounds.patch
-# aarch64 support until it upstreams
-Patch3:         http://ausil.fedorapeople.org/aarch64/fontforge/fontforge-aarch64.patch
-Patch4:         fontforge-20120731-pdf-filters.patch
+License:        GPLv3+
+URL:            http://fontforge.github.io/
+Source0:        https://github.com/fontforge/fontforge/archive/%{archive_version}.tar.gz
 
 Requires:       xdg-utils
 Requires:       autotrace
+Requires:       hicolor-icon-theme
 
 BuildRequires:  libjpeg-devel
 BuildRequires:  libtiff-devel
@@ -37,6 +29,10 @@ BuildRequires:  pango-devel
 BuildRequires:  cairo-devel
 BuildRequires:  libspiro-devel
 BuildRequires:  python2-devel
+BuildRequires:  gnulib-devel
+BuildRequires:  libtool-ltdl-devel
+BuildRequires:  readline-devel
+BuildRequires:  python-ipython
 
 %description
 FontForge (former PfaEdit) is a font editor for outline and bitmap
@@ -46,64 +42,50 @@ fonts. It supports a range of font formats, including PostScript
 
 %package devel
 Summary: Development tools for fontforge
-Group: Development/Libraries
 Requires: %{name} = %{version}-%{release}
+Requires: %{name}-doc = %{version}-%{release}
 Requires: pkgconfig
 
 %description devel
 This package includes the libraries and header files you will need
 to compile applications against fontforge.
 
+%package doc
+Summary: Documentation files for %{name}
+BuildArch: noarch
+
+%description doc
+This package contains documentation files for %{name}.
+
+
 %prep
 %setup -q -n %{name}-%{archive_version}
 
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
+sed -i -e '/^#!\//, 1d' pycontrib/graphicore.py
+sed -i -e '/^#!\//, 1d' pycontrib/webcollab.py
 
 mkdir htdocs
-tar xjf %{SOURCE2} -C htdocs
-rm -rf htdocs/scripts
-chmod 644 htdocs/*.gif
-chmod 644 htdocs/*.html
-chmod 644 htdocs/*.png
-rm -rf htdocs/flags/CVS
-
+cp -pr doc/html/* htdocs
+chmod 644 htdocs/nonBMP/index.html
 # Fix bad line terminators
 %{__sed} -i 's/\r//' htdocs/Big5.txt
 %{__sed} -i 's/\r//' htdocs/corpchar.txt
 
-# Fix compile time link error messages by removing makefile rule
-%{__sed} -i '40d' Makefile.dynamic.in
-
-# Fix compile time install error messages by removing makefile rule
-%{__sed} -i '95,96d' Makefile.dynamic.in
-
-
 %build
-export INSTALL='/usr/bin/install -p'
+./bootstrap
 export CFLAGS="%{optflags} -fno-strict-aliasing"
 
-%configure --with-freetype-bytecode=no --with-regular-link --enable-pyextension
-
-sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
-sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
-
-make %{?_smp_mflags}
+%configure
+make V=1 %{?_smp_mflags}
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
-
+make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 rm -f $RPM_BUILD_ROOT%{_libdir}/libg{draw,unicode}.{la,so}
-
-install -Dpm 644 Packaging/icons/scalable/apps/fontforge.svg \
-  $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/scalable/apps/fontforge.svg
 
 desktop-file-install \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications            \
   --add-category X-Fedora                                  \
-  Packaging/fontforge.desktop
+  desktop/fontforge.desktop
 
 # The fontforge makefiles install htdocs as well, but we
 # prefer to have them under the standard RPM location, so
@@ -111,19 +93,30 @@ desktop-file-install \
 rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/fontforge
 
 # remove unneeded .la and .a files
-rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
-rm -f $RPM_BUILD_ROOT%{_libdir}/*.a
+find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
+find $RPM_BUILD_ROOT -name '*.a' -exec rm -f {} ';'
 
 # Find translations
 %find_lang %{gettext_package}
 
-mkdir -p $RPM_BUILD_ROOT/%{_datadir}/mime/packages
-install -m 644 -p Packaging/fontforge.xml $RPM_BUILD_ROOT/%{_datadir}/mime/packages/
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/appdata
+install -m 644 -p desktop/fontforge.appdata.xml $RPM_BUILD_ROOT%{_datadir}/appdata
+
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/mime/packages
+install -m 644 -p desktop/fontforge.xml $RPM_BUILD_ROOT%{_datadir}/mime/packages/
+
+#Makefile install rules are playing evil here. Let's correct the permission.
+chmod 644 $RPM_BUILD_ROOT%{_datadir}/fontforge/python/graphicore/__init__.py
+chmod 644 $RPM_BUILD_ROOT%{_datadir}/fontforge/python/gdraw/_gdraw.py
+
+chmod 644 $RPM_BUILD_ROOT%{_datadir}/fontforge/nodejs/collabwebview/css/*.css
+chmod 644 $RPM_BUILD_ROOT%{_datadir}/fontforge/nodejs/collabwebview/js/*.js
+chmod 644 $RPM_BUILD_ROOT%{_datadir}/fontforge/nodejs/collabwebview/js/contentEditable/*
 
 %post
 update-desktop-database &> /dev/null || :
 /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-/bin/touch --no-create %{_datadir}/mime/packages &> /dev/null || :
+/usr/bin/update-mime-database %{_datadir}/mime &> /dev/null || :
 /sbin/ldconfig
 
 %postun
@@ -131,17 +124,15 @@ update-desktop-database &> /dev/null || :
 if [ $1 -eq 0 ] ; then
     /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
     /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-    /bin/touch --no-create %{_datadir}/mime/packages &> /dev/null || :
-    /usr/bin/update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
+    /usr/bin/update-mime-database %{_datadir}/mime &> /dev/null || :
 fi
 /sbin/ldconfig
 
 %posttrans
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-/usr/bin/update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 %files -f %{gettext_package}.lang
-%doc AUTHORS LICENSE htdocs
+%doc AUTHORS LICENSE
 %{_bindir}/*
 %{_libdir}/lib*.so.*
 %{_datadir}/applications/*fontforge.desktop
@@ -149,16 +140,24 @@ fi
 %{_datadir}/icons/hicolor/*/apps/fontforge.*
 %{_mandir}/man1/*.1*
 %{_datadir}/mime/packages/fontforge.xml
-%{python_sitearch}/fontforge-1.0-py2.7.egg-info
-%{python_sitearch}/fontforge.so
-%{python_sitearch}/psMat.so
+%{_datadir}/appdata/fontforge.appdata.xml
+%{python2_sitearch}/fontforge.so
+%{python2_sitearch}/psMat.so
 
 %files devel
 %{_includedir}/fontforge/
 %{_libdir}/lib*.so
 %{_libdir}/pkgconfig/*.pc
 
+%files doc
+%doc htdocs
+
 %changelog
+* Mon Sep 08 2014 Parag Nemade <pnemade AT redhat DOT com> - 20140813-1
+- Update to fontforge 2.0 snapshot 20140813
+- corrected some scriptlets as per packaging guidelines
+- Added new subpackage -doc
+
 * Sat Aug 16 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20120731b-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
