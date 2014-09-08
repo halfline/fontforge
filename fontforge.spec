@@ -1,14 +1,16 @@
 %global archive_version 20140813
 %global gettext_package FontForge
+%global gnulib_githead 2bf7326
 
 Name:           fontforge
 Version:        20140813
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Outline and bitmap font editor
 
 License:        GPLv3+
 URL:            http://fontforge.github.io/
 Source0:        https://github.com/fontforge/fontforge/archive/%{archive_version}.tar.gz
+Source1:        http://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=snapshot;h=%{gnulib_githead};sf=tgz;name=gnulib-%{gnulib_githead}.tar.gz
 
 Requires:       xdg-utils
 Requires:       autotrace
@@ -29,10 +31,11 @@ BuildRequires:  pango-devel
 BuildRequires:  cairo-devel
 BuildRequires:  libspiro-devel
 BuildRequires:  python2-devel
-BuildRequires:  gnulib-devel
 BuildRequires:  libtool-ltdl-devel
 BuildRequires:  readline-devel
 BuildRequires:  python-ipython
+
+Provides: bundled(gnulib)
 
 %description
 FontForge (former PfaEdit) is a font editor for outline and bitmap
@@ -60,6 +63,7 @@ This package contains documentation files for %{name}.
 
 %prep
 %setup -q -n %{name}-%{archive_version}
+tar xzf %{SOURCE1}
 
 sed -i -e '/^#!\//, 1d' pycontrib/graphicore.py
 sed -i -e '/^#!\//, 1d' pycontrib/webcollab.py
@@ -72,7 +76,7 @@ chmod 644 htdocs/nonBMP/index.html
 %{__sed} -i 's/\r//' htdocs/corpchar.txt
 
 %build
-./bootstrap
+./bootstrap --skip-git --gnulib-srcdir=gnulib-%{gnulib_githead}
 export CFLAGS="%{optflags} -fno-strict-aliasing"
 
 %configure
@@ -153,6 +157,9 @@ fi
 %doc htdocs
 
 %changelog
+* Mon Sep 08 2014 Parag Nemade <pnemade AT redhat DOT com> - 20140813-2
+- Add gnulib source for bootstrap as koji don't have network
+
 * Mon Sep 08 2014 Parag Nemade <pnemade AT redhat DOT com> - 20140813-1
 - Update to fontforge 2.0 snapshot 20140813
 - corrected some scriptlets as per packaging guidelines
