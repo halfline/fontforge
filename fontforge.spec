@@ -32,6 +32,7 @@ BuildRequires:  pango-devel
 BuildRequires:  cairo-devel
 BuildRequires:  libspiro-devel
 BuildRequires:  python2-devel
+BuildRequires:  gnulib-devel
 BuildRequires:  libtool-ltdl-devel
 BuildRequires:  readline-devel
 BuildRequires:  python-ipython
@@ -164,6 +165,7 @@ fi
 * Mon Sep 08 2014 Parag Nemade <pnemade AT redhat DOT com> - 20140813-2
 - Add gnulib source for bootstrap as koji don't have network
 - Patch Makefile.am to use system uthash-devel
+- We also need gnulib-devel
 
 * Mon Sep 08 2014 Parag Nemade <pnemade AT redhat DOT com> - 20140813-1
 - Update to fontforge 2.0 snapshot 20140813
