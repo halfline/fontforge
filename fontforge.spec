@@ -4,13 +4,15 @@
 
 Name:           fontforge
 Version:        20140813
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Outline and bitmap font editor
 
 License:        GPLv3+
 URL:            http://fontforge.github.io/
 Source0:        https://github.com/fontforge/fontforge/archive/%{archive_version}.tar.gz
+# https://github.com/fontforge/fontforge/issues/1725
 Source1:        http://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=snapshot;h=%{gnulib_githead};sf=tgz;name=gnulib-%{gnulib_githead}.tar.gz
+# https://github.com/fontforge/fontforge/pull/1723
 Patch0:         fontforge-20140813-use-system-uthash.patch
 
 Requires:       xdg-utils
@@ -35,7 +37,8 @@ BuildRequires:  python2-devel
 BuildRequires:  gnulib-devel
 BuildRequires:  libtool-ltdl-devel
 BuildRequires:  readline-devel
-BuildRequires:  python-ipython
+# This is failing on aarch64 so drop it
+#BuildRequires:  python-ipython
 BuildRequires:  uthash-devel
 
 Provides: bundled(gnulib)
@@ -115,7 +118,7 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/mime/packages
 install -m 644 -p desktop/fontforge.xml $RPM_BUILD_ROOT%{_datadir}/mime/packages/
 
 #Makefile install rules are playing evil here. Let's correct the permission.
-chmod 644 $RPM_BUILD_ROOT%{_datadir}/fontforge/python/graphicore/__init__.py
+#chmod 644 $RPM_BUILD_ROOT%{_datadir}/fontforge/python/graphicore/__init__.py
 chmod 644 $RPM_BUILD_ROOT%{_datadir}/fontforge/python/gdraw/_gdraw.py
 
 chmod 644 $RPM_BUILD_ROOT%{_datadir}/fontforge/nodejs/collabwebview/css/*.css
@@ -162,6 +165,9 @@ fi
 %doc htdocs
 
 %changelog
+* Tue Sep 09 2014 Parag Nemade <pnemade AT redhat DOT com> - 20140813-3
+- drop BR: python-ipython for aarch64 builds (rh#1139508)
+
 * Mon Sep 08 2014 Parag Nemade <pnemade AT redhat DOT com> - 20140813-2
 - Add gnulib source for bootstrap as koji don't have network
 - Patch Makefile.am to use system uthash-devel
