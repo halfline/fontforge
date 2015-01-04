@@ -1,10 +1,10 @@
-%global archive_version 20140813
+%global archive_version 20141230
 %global gettext_package FontForge
 %global gnulib_githead 2bf7326
 
 Name:           fontforge
-Version:        20140813
-Release:        3%{?dist}
+Version:        20141230
+Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
 License:        GPLv3+
@@ -165,6 +165,9 @@ fi
 %doc htdocs
 
 %changelog
+* Sun Jan 04 2015 Kevin Fenzi <kevin@scrye.com> 20141230-1
+- Update to 20141230
+
 * Tue Sep 09 2014 Parag Nemade <pnemade AT redhat DOT com> - 20140813-3
 - drop BR: python-ipython for aarch64 builds (rh#1139508)
 
