@@ -4,7 +4,7 @@
 
 Name:           fontforge
 Version:        20141230
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Outline and bitmap font editor
 
 License:        GPLv3+
@@ -165,6 +165,9 @@ fi
 %doc htdocs
 
 %changelog
+* Sun Feb 01 2015 Kevin Fenzi <kevin@scrye.com> 20141230-2
+- Rebuild for new libspiro
+
 * Sun Jan 04 2015 Kevin Fenzi <kevin@scrye.com> 20141230-1
 - Update to 20141230
 
