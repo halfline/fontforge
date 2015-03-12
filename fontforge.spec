@@ -1,10 +1,10 @@
-%global archive_version 20141230
+%global archive_version 20150228
 %global gettext_package FontForge
 %global gnulib_githead 2bf7326
 
 Name:           fontforge
-Version:        20141230
-Release:        2%{?dist}
+Version:        20150228
+Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
 License:        GPLv3+
@@ -165,6 +165,9 @@ fi
 %doc htdocs
 
 %changelog
+* Thu Mar 12 2015 Parag Nemade <pnemade AT redhat DOT com> - 20150228-1
+- Update to 20150228
+
 * Sun Feb 01 2015 Kevin Fenzi <kevin@scrye.com> 20141230-2
 - Rebuild for new libspiro
 
