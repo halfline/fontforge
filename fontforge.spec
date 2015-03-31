@@ -1,9 +1,9 @@
-%global archive_version 20150228
+%global archive_version 20150330
 %global gettext_package FontForge
 %global gnulib_githead 2bf7326
 
 Name:           fontforge
-Version:        20150228
+Version:        20150330
 Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
@@ -144,7 +144,8 @@ fi
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %files -f %{gettext_package}.lang
-%doc AUTHORS LICENSE
+%doc AUTHORS
+%license LICENSE
 %{_bindir}/*
 %{_libdir}/lib*.so.*
 %{_datadir}/applications/*fontforge.desktop
@@ -165,6 +166,10 @@ fi
 %doc htdocs
 
 %changelog
+* Tue Mar 30 2015 Parag Nemade <pnemade AT redhat DOT com> - 20150330-1
+- Update to 20150330
+- use %%license macro for LICENSE file
+
 * Thu Mar 12 2015 Parag Nemade <pnemade AT redhat DOT com> - 20150228-1
 - Update to 20150228
 
