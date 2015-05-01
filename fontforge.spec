@@ -1,9 +1,9 @@
-%global archive_version 20150330
+%global archive_version 20150430
 %global gettext_package FontForge
 %global gnulib_githead 2bf7326
 
 Name:           fontforge
-Version:        20150330
+Version:        20150430
 Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
@@ -166,6 +166,9 @@ fi
 %doc htdocs
 
 %changelog
+* Fri May 01 2015 Parag Nemade <pnemade AT redhat DOT com> - 20150430-1
+- Update to 20150430
+
 * Tue Mar 30 2015 Parag Nemade <pnemade AT redhat DOT com> - 20150330-1
 - Update to 20150330
 - use %%license macro for LICENSE file
