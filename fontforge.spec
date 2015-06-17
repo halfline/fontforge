@@ -4,7 +4,7 @@
 
 Name:           fontforge
 Version:        20150612
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Outline and bitmap font editor
 
 License:        GPLv3+
@@ -166,6 +166,9 @@ fi
 %doc htdocs
 
 %changelog
+* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20150612-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Sat Jun 13 2015 Parag Nemade <pnemade AT redhat DOT com> - 20150612-1
 - Update to 20150612
 
