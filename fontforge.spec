@@ -1,15 +1,15 @@
-%global archive_version 20150612
 %global gettext_package FontForge
 %global gnulib_githead 2bf7326
+%global gittag0 20150824
 
 Name:           fontforge
-Version:        20150612
-Release:        2%{?dist}
+Version:        20150824
+Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
 License:        GPLv3+
 URL:            http://fontforge.github.io/
-Source0:        https://github.com/fontforge/fontforge/archive/%{archive_version}.tar.gz
+Source0:        https://github.com/fontforge/%{name}/archive/%{gittag0}.tar.gz#/%{name}-%{version}.tar.gz
 # https://github.com/fontforge/fontforge/issues/1725
 Source1:        http://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=snapshot;h=%{gnulib_githead};sf=tgz;name=gnulib-%{gnulib_githead}.tar.gz
 # https://github.com/fontforge/fontforge/pull/1723
@@ -68,7 +68,7 @@ This package contains documentation files for %{name}.
 
 
 %prep
-%setup -q -n %{name}-%{archive_version}
+%setup -q -n %{name}-%{version}
 tar xzf %{SOURCE1}
 
 %patch0 -p0
@@ -166,6 +166,10 @@ fi
 %doc htdocs
 
 %changelog
+* Wed Aug 26 2015 Parag Nemade <pnemade AT redhat DOT com> - 20150824-1
+- Update to 20150824
+- Follow https://fedoraproject.org/wiki/Packaging:SourceURL#Git_Tags
+
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20150612-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
@@ -175,7 +179,7 @@ fi
 * Fri May 01 2015 Parag Nemade <pnemade AT redhat DOT com> - 20150430-1
 - Update to 20150430
 
-* Tue Mar 30 2015 Parag Nemade <pnemade AT redhat DOT com> - 20150330-1
+* Mon Mar 30 2015 Parag Nemade <pnemade AT redhat DOT com> - 20150330-1
 - Update to 20150330
 - use %%license macro for LICENSE file
 
