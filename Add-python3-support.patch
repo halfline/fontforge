@@ -1,0 +1,473 @@
+From 75426cbbe57138849b96537ab1dee81e7861af11 Mon Sep 17 00:00:00 2001
+From: Parag Nemade <pnemade@redhat.com>
+Date: Fri, 8 Apr 2016 12:03:12 +0530
+Subject: [PATCH] Add python3 support
+
+---
+ pycontrib/FontCompare/fc/BitmapHandler.py    | 20 +++++++--------
+ pycontrib/FontCompare/fc/DocCompare.py       |  2 +-
+ pycontrib/FontCompare/fc/FontCompare.py      |  2 +-
+ pycontrib/FontCompare/fc/GlyphConsistency.py |  2 +-
+ pycontrib/FontCompare/fontcompare            |  2 +-
+ pycontrib/FontCompare/unittests/unittests.py | 18 ++++++-------
+ pycontrib/collab/web-test-collab.py          |  2 +-
+ pycontrib/even.py                            |  2 +-
+ pycontrib/gdraw/__init__.py                  |  2 +-
+ pycontrib/gdraw/gdraw.py                     | 18 ++++++-------
+ pycontrib/graphicore.py                      |  2 +-
+ pycontrib/graphicore/ipython_view.py         | 13 +++++-----
+ pycontrib/graphicore/shell.py                |  2 +-
+ pycontrib/svg2sfd.py                         | 38 ++++++++++++++--------------
+ pycontrib/webcollab.py                       |  2 +-
+ 15 files changed, 64 insertions(+), 63 deletions(-)
+
+diff --git a/pycontrib/FontCompare/fc/BitmapHandler.py b/pycontrib/FontCompare/fc/BitmapHandler.py
+index d4d00da..c159128 100644
+--- a/pycontrib/FontCompare/fc/BitmapHandler.py
++++ b/pycontrib/FontCompare/fc/BitmapHandler.py
+@@ -35,7 +35,7 @@ def white_bg_square(img):
+     "return a white-background-color image having the img in exact center"
+     size = (max(img.size),)*2
+     layer = Image.new('1', size, 1)
+-    layer.paste(img, tuple(map(lambda x:(x[0]-x[1])/2, zip(size, img.size))))
++    layer.paste(img, tuple([(x[0]-x[1])/2 for x in zip(size, img.size)]))
+     return layer
+ 
+ class BitmapCompare:
+@@ -73,13 +73,13 @@ class CreateSpriteSheet:
+         #seperate each image with lots of whitespace
+         master_height = pixelsize
+         oldfont = font
+-        print "the master image will by %d by %d" % (master_width, master_height)
+-        print "creating image..."
++        print("the master image will by %d by %d" % (master_width, master_height))
++        print("creating image...")
+         master = Image.new(
+         mode='1',
+         size=(master_width, master_height),
+         color=0) # fully transparent
+-        print "created."
++        print("created.")
+         if effects == "italic":
+             font.selection.all()
+             font = font.italicize(-13)
+@@ -92,16 +92,16 @@ class CreateSpriteSheet:
+                     font[i].changeWeight(50,"auto",0,0,"auto")
+                 font[i].export("temp.bmp",pixelsize,1)
+                 img = Image.open("temp.bmp")
+-                print "adding %s at %d..." % (str(i)+".bmp", location),
++                print("adding %s at %d..." % (str(i)+".bmp", location), end=' ')
+                 square_one = white_bg_square(img)
+                 square_one.resize((pixelsize, pixelsize))
+                 master.paste(square_one,(location,0))
+-                print "added."
++                print("added.")
+             except:
+-                print "ooopsy"
++                print("ooopsy")
+             count+=1
+-        print "done adding pics."
+-        print "saving mastersprite.bmp..."
++        print("done adding pics.")
++        print("saving mastersprite.bmp...")
+         master.save('data/mastersprite'+effects+'.bmp' )
+-        print "saved!"
++        print("saved!")
+         font.close()
+diff --git a/pycontrib/FontCompare/fc/DocCompare.py b/pycontrib/FontCompare/fc/DocCompare.py
+index 3a54bf9..df431e2 100644
+--- a/pycontrib/FontCompare/fc/DocCompare.py
++++ b/pycontrib/FontCompare/fc/DocCompare.py
+@@ -41,7 +41,7 @@ class DocCompare:
+         bashcommand = "hb-view --output-format=\"png\" --output-file=\"/var/tmp/test.png\" --font-size="+str(fontsize)+" --text-file=\""
+         bashcommand+=docpath+"\" "+"\""+testpath+"\""
+         os.system(str(bashcommand))
+-        print bashcommand
++        print(bashcommand)
+         thefile = pkg_resources.resource_filename("fc",mockfont.highresdocfile)
+         shutil.copy(thefile,"/var/tmp/standard.png")
+         cm = BitmapCompare()
+diff --git a/pycontrib/FontCompare/fc/FontCompare.py b/pycontrib/FontCompare/fc/FontCompare.py
+index f21718c..c82b788 100644
+--- a/pycontrib/FontCompare/fc/FontCompare.py
++++ b/pycontrib/FontCompare/fc/FontCompare.py
+@@ -111,7 +111,7 @@ class FontCompare(object):
+         scores = list()
+         comparator = BitmapCompare()
+         pixelsize = (resolution*ptsize)/72
+-        print spritepath
++        print(spritepath)
+         for i in range (glyphRange[0],glyphRange[1]):
+             if i in Testfont:
+                 Testfont[i].export("/var/tmp/tmp.bmp",pixelsize,1)
+diff --git a/pycontrib/FontCompare/fc/GlyphConsistency.py b/pycontrib/FontCompare/fc/GlyphConsistency.py
+index 38273c9..d5265fa 100644
+--- a/pycontrib/FontCompare/fc/GlyphConsistency.py
++++ b/pycontrib/FontCompare/fc/GlyphConsistency.py
+@@ -102,7 +102,7 @@ class GlyphConsistency:
+         for i in range (glyphrange[0],glyphrange[1]):
+             if i in font:
+                 score =  self.glyph_round_compare(font[i],pixelsize)
+-                print score
++                print(score)
+                 set_round_score+=score
+                 total+=1
+         font.close()
+diff --git a/pycontrib/FontCompare/fontcompare b/pycontrib/FontCompare/fontcompare
+index e7e68d8..fdf7336 100755
+--- a/pycontrib/FontCompare/fontcompare
++++ b/pycontrib/FontCompare/fontcompare
+@@ -15,7 +15,7 @@
+     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ """
+ 
+-#! /usr/bin/python
++#! /usr/bin/python3
+ from PyQt4.QtGui import QMessageBox
+ from PyQt4.QtGui import QMainWindow
+ from PyQt4.QtGui import QApplication
+diff --git a/pycontrib/FontCompare/unittests/unittests.py b/pycontrib/FontCompare/unittests/unittests.py
+index 18e1e95..d8a1190 100644
+--- a/pycontrib/FontCompare/unittests/unittests.py
++++ b/pycontrib/FontCompare/unittests/unittests.py
+@@ -55,7 +55,7 @@ class Basictests(unittest.TestCase):
+         for tup in basic:
+             if tup[1]!=10:
+                 bastest=0
+-        self.failUnless(bastest)
++        self.assertTrue(bastest)
+         testfont = fontforge.open("unittests/lohit.ttf")
+         bold = cm.font_facecompare(testfont,mockfont,(0x900,0x97f),\
+         600,12,1,"bold")
+@@ -66,28 +66,28 @@ class Basictests(unittest.TestCase):
+         normal = cm.font_facecompare(testfont,mockfont,(0x900,0x97f),\
+         600,12,1,"normal")
+         test = 1
+-        print len(normal)
++        print(len(normal))
+         for tup in bold:
+             if tup[1]==100 or tup[1]==0:
+                 test1=1
+                 break
+-        self.failUnless(test)
++        self.assertTrue(test)
+         test = 0
+         for tup in italic:
+             if tup[1]==100 or tup[1]==0:
+                 test=1
+                 break
+-        self.failUnless(test is 1)
++        self.assertTrue(test is 1)
+         test = 0
+         for tup in normal:
+             if tup[1]==100 or tup[1]==0:
+                 test=1
+                 break
+-        self.failUnless(test is 1)
++        self.assertTrue(test is 1)
+         test = 0
+         if len(normal) == len(bold) == len(italic):
+             test = 1
+-        self.failUnless(test is 1)
++        self.assertTrue(test is 1)
+ 
+     def testGlyphConsistency(self):
+         cm = GlyphConsistency()
+@@ -99,11 +99,11 @@ class Basictests(unittest.TestCase):
+         test3 = cm.glyph_round_consistency(testfont,(0x900,0x97f),50)
+ 
+         test = (0 <= test1[0][1] <= 10)
+-        self.failUnless(test)
++        self.assertTrue(test)
+         test2 = (0 <= test2 <= 10)
+-        self.failUnless(test2)
++        self.assertTrue(test2)
+         test3 = (0 <= test3 <= 10)
+-        self.failUnless(test3)
++        self.assertTrue(test3)
+ 
+ """
+ unittests for DocCompare not required.
+diff --git a/pycontrib/collab/web-test-collab.py b/pycontrib/collab/web-test-collab.py
+index 47b763f..b19f930 100755
+--- a/pycontrib/collab/web-test-collab.py
++++ b/pycontrib/collab/web-test-collab.py
+@@ -68,7 +68,7 @@ def OnCollabUpdate(f):
+             "end": "null" # this is simply so we dont have to manage keeping the last item with no terminating ,
+             }, 
+             sort_keys=True, indent=4, separators=(',', ': '))
+-    print js
++    print(js)
+     fi = open(fontJsonOnDisk, 'w')
+     fi.write(js)
+ 
+diff --git a/pycontrib/even.py b/pycontrib/even.py
+index 96f9128..4f30fcb 100755
+--- a/pycontrib/even.py
++++ b/pycontrib/even.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/python3
+ # -*- coding: utf-8 -*-
+ """
+ running even from the fontforge menu
+diff --git a/pycontrib/gdraw/__init__.py b/pycontrib/gdraw/__init__.py
+index d47976c..25bf981 100644
+--- a/pycontrib/gdraw/__init__.py
++++ b/pycontrib/gdraw/__init__.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/python3
+ # vim:ts=8:sw=4:expandtab:encoding=utf-8
+ '''
+ Copyright <hashao2@gmail.com> 2009
+diff --git a/pycontrib/gdraw/gdraw.py b/pycontrib/gdraw/gdraw.py
+index f2d5e50..3ed3abd 100755
+--- a/pycontrib/gdraw/gdraw.py
++++ b/pycontrib/gdraw/gdraw.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/python3
+ '''ctypes wrapper to Attach the GDraw event handler to the gtk main loop.
+ 
+ Copyright <hashao2@gmail.com> 2009
+@@ -111,7 +111,7 @@ class Timer:
+ 
+         return
+         def dodo(*args):
+-            print 'aaa'
++            print('aaa')
+             return False
+         self.add(1000, dodo)
+ 
+@@ -122,7 +122,7 @@ class Timer:
+ 
+     def _event_handler(self, gw, event):
+         evt = event.contents
+-        print "_event_handler()"
++        print("_event_handler()")
+         if evt.type == et_timer:
+             timer = evt.u.timer.timer
+             tkey = addressof(timer.contents)
+@@ -147,7 +147,7 @@ class Timer:
+         ci.func = CallBackFunc(func)
+         ci.data = data
+ 
+-        print "timer.add timeout", timeout
++        print("timer.add timeout", timeout)
+         frequency = 1 # Use return value of func() to decide repeat like gtk.
+         timer = GDrawRequestTimer(self.win, timeout, timeout, byref(ci))
+ 
+@@ -190,7 +190,7 @@ class GtkRunner:
+ 
+     def _do_main(self, *args):
+         '''The function called by the gdraw timeout handler.'''
+-        print "do_main"
++        print("do_main")
+         while gtk.events_pending():
+             gtk.main_iteration(False)
+         return True
+@@ -207,15 +207,15 @@ class GtkRunner:
+             self.gtk_timer = None
+ 
+     def OnDestroyWindow(self, widget, fd ):
+-        print fd
++        print(fd)
+         fontforge.removeGtkWindowToMainEventLoopByFD( fd )
+         self.stop()
+         return True
+ 
+     def sniffwindow(self,w):
+         '''sniff key presses for a gtk window'''
+-        print "sniffwindow w", w
+-        print "sniff active font:", fontforge.activeFont()
++        print("sniffwindow w", w)
++        print("sniff active font:", fontforge.activeFont())
+         w.connect("key-release-event", self._do_main)
+         fontforge.addGtkWindowToMainEventLoop(w.window.xid)
+         fd = fontforge.getGtkWindowMainEventLoopFD(w.window.xid)
+@@ -223,7 +223,7 @@ class GtkRunner:
+ 
+     def sniffwindowid(self,xid):
+         '''sniff key presses for a gtk window'''
+-        print "sniffwindowid xid", xid
++        print("sniffwindowid xid", xid)
+         #w.connect("key-release-event", self._do_main)
+ 
+     def start(self, timeout=GTIMEOUT):
+diff --git a/pycontrib/graphicore.py b/pycontrib/graphicore.py
+index f95e488..a986327 100755
+--- a/pycontrib/graphicore.py
++++ b/pycontrib/graphicore.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/python3
+ # -*- coding: utf-8 -*-
+ """
+ running the fontforge scripts in the graphicore folder on fontforge startup
+diff --git a/pycontrib/graphicore/ipython_view.py b/pycontrib/graphicore/ipython_view.py
+index f39eedb..2b77395 100644
+--- a/pycontrib/graphicore/ipython_view.py
++++ b/pycontrib/graphicore/ipython_view.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/python3
+ '''
+ Provides IPython console widget.
+ 
+@@ -17,10 +17,11 @@ import re
+ import sys
+ import os
+ import pango
+-from StringIO import StringIO
+-import thread
++from io import StringIO
++import _thread
+ 
+ import IPython
++from functools import reduce
+ 
+ class IterableIPShell:
+   '''
+@@ -118,7 +119,7 @@ class IterableIPShell:
+     '''
+     This function updates namespace with sys.modules
+     '''
+-    for k,v in sys.modules.items():
++    for k,v in list(sys.modules.items()):
+       if not '.' in k:
+         self.IP.user_ns.update({k:v})
+ 
+@@ -271,11 +272,11 @@ class IterableIPShell:
+     @type header: string
+     '''
+     stat = 0
+-    if verbose or debug: print header+cmd
++    if verbose or debug: print(header+cmd)
+     # flush stdout so we don't mangle python's buffering
+     if not debug:
+       input, output = os.popen4(cmd)
+-      print output.read()
++      print(output.read())
+       output.close()
+       input.close()
+ 
+diff --git a/pycontrib/graphicore/shell.py b/pycontrib/graphicore/shell.py
+index 5d102f7..2728ae2 100755
+--- a/pycontrib/graphicore/shell.py
++++ b/pycontrib/graphicore/shell.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/python3
+ # -*- coding: utf-8 -*-
+ """
+ FontForge Interactive Python Shell
+diff --git a/pycontrib/svg2sfd.py b/pycontrib/svg2sfd.py
+index e1fc0ac..e23cb15 100644
+--- a/pycontrib/svg2sfd.py
++++ b/pycontrib/svg2sfd.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/python3
+ #
+ # Copyright 2013 Google Inc. All rights reserved.
+ # 
+@@ -49,7 +49,7 @@ def print_one_cmd(cmd, args):
+       result.append('%f' % (scale * args[i]))
+   result.append(cmd)
+   result.append('0')  # TODO: should mark corner points
+-  print ' '.join(result)
++  print(' '.join(result))
+ 
+ def apply_rel_xy(xy, args):
+   x0, y0 = xy
+@@ -75,7 +75,7 @@ def path_to_sfd(path):
+     for i in range(num_args_cmd(cmd)):
+       m = fre.match(path)
+       if m is None:
+-        print 'no float match:', path
++        print('no float match:', path)
+       args.append(float(m.group(1)))
+       path = path[m.end():]
+     #print cmd, args
+@@ -128,13 +128,13 @@ def conv_svg(fn, char, glyphnum = None):
+   if glyphnum == None:
+     glyphnum = lastglyphnum + 1
+   lastglyphnum = glyphnum
+-  print 'StartChar:', os.path.basename(fn)[:-4]
+-  print 'Encoding: %d %d %d' % (char, glyphnum, char)
+-  print 'Width: %d' % (21 * 40)
+-  print 'Flags: W'
+-  print 'LayerCount: 2'
+-  print 'Fore'
+-  print 'SplineSet'
++  print('StartChar:', os.path.basename(fn)[:-4])
++  print('Encoding: %d %d %d' % (char, glyphnum, char))
++  print('Width: %d' % (21 * 40))
++  print('Flags: W')
++  print('LayerCount: 2')
++  print('Fore')
++  print('SplineSet')
+   doc = xml.dom.minidom.parse(fn)
+   # TODO: reverse paths if fill color is white-ish (this is more code,
+   # and in the meantime, we'll rely on correct path direction in FF)
+@@ -147,16 +147,16 @@ def conv_svg(fn, char, glyphnum = None):
+     cy = float(circle.getAttribute('cy'))
+     r = float(circle.getAttribute('r'))
+     circle_to_sfd(cx, cy, r)
+-  print 'EndSplineSet'
+-  print 'EndChar'
++  print('EndSplineSet')
++  print('EndChar')
+ 
+ def print_header():
+   global header_printed
+-  print '''SplineFontDB: 3.0
++  print('''SplineFontDB: 3.0
+ FontName: %s
+ FullName: %s
+-FamilyName: %s''' % (font_name, font_name, font_name)
+-  print '''Weight: Medium
++FamilyName: %s''' % (font_name, font_name, font_name))
++  print('''Weight: Medium
+ Copyright: Copyright (C) 2011 Google Inc.
+ Version: 001.000
+ UnderlinePosition: -120
+@@ -180,12 +180,12 @@ HheadAOffset: 0
+ HheadDescent: 200
+ HheadDOffset: 0
+ BeginChars: 57600 57600
+-'''
++''')
+   header_printed = True
+ 
+ def print_footer():
+-  print '''EndChars
+-EndSplineFont'''
++  print('''EndChars
++EndSplineFont''')
+ 
+ def parse_int(x):
+   if x.startswith('0x'):
+@@ -197,7 +197,7 @@ def run_file(fn):
+   global char_num
+   global font_name
+   directory = ''
+-  for l in file(fn).xreadlines():
++  for l in file(fn):
+     if l.startswith('#'):
+       continue
+     s = l.strip().split()
+diff --git a/pycontrib/webcollab.py b/pycontrib/webcollab.py
+index 9ee0f17..f96828c 100755
+--- a/pycontrib/webcollab.py
++++ b/pycontrib/webcollab.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/python3
+ # -*- coding: utf-8 -*-
+ """
+ running web collab server hooks
+-- 
+2.7.3
+

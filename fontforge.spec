@@ -4,7 +4,7 @@
 
 Name:           fontforge
 Version:        20160404
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Outline and bitmap font editor
 
 License:        GPLv3+
@@ -14,6 +14,7 @@ Source0:        https://github.com/fontforge/%{name}/archive/%{gittag0}.tar.gz#/
 Source1:        http://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=snapshot;h=%{gnulib_githead};sf=tgz;name=gnulib-%{gnulib_githead}.tar.gz
 # https://github.com/fontforge/fontforge/pull/1723
 Patch0:         fontforge-20140813-use-system-uthash.patch
+Patch1:         Add-python3-support.patch
 
 Requires:       xdg-utils
 Requires:       autotrace
@@ -33,7 +34,7 @@ BuildRequires:  gettext
 BuildRequires:  pango-devel
 BuildRequires:  cairo-devel
 BuildRequires:  libspiro-devel
-BuildRequires:  python2-devel
+BuildRequires:  python3-devel
 BuildRequires:  gnulib-devel
 BuildRequires:  libtool-ltdl-devel
 BuildRequires:  readline-devel
@@ -72,8 +73,7 @@ This package contains documentation files for %{name}.
 tar xzf %{SOURCE1}
 
 %patch0 -p0
-
-sed -i -e '/^#!\//, 1d' pycontrib/graphicore.py
+%patch1 -p1
 sed -i -e '/^#!\//, 1d' pycontrib/webcollab.py
 
 mkdir htdocs
@@ -87,7 +87,7 @@ chmod 644 htdocs/nonBMP/index.html
 ./bootstrap --skip-git --gnulib-srcdir=gnulib-%{gnulib_githead}
 export CFLAGS="%{optflags} -fno-strict-aliasing"
 
-%configure
+%configure PYTHON=python3
 make V=1 %{?_smp_mflags}
 
 %install
@@ -154,8 +154,8 @@ fi
 %{_mandir}/man1/*.1*
 %{_datadir}/mime/packages/fontforge.xml
 %{_datadir}/appdata/fontforge.appdata.xml
-%{python2_sitearch}/fontforge.so
-%{python2_sitearch}/psMat.so
+%{python3_sitearch}/fontforge.so
+%{python3_sitearch}/psMat.so
 
 %files devel
 %{_includedir}/fontforge/
@@ -166,6 +166,9 @@ fi
 %doc htdocs
 
 %changelog
+* Wed Apr 06 2016 Parag Nemade <pnemade AT redhat DOT com> - 20160404-2
+- Move from python2 to python3 support
+
 * Tue Apr 05 2016 Parag Nemade <pnemade AT redhat DOT com> - 20160404-1
 - Update to 20160404
 
