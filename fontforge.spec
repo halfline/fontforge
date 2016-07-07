@@ -4,7 +4,7 @@
 
 Name:           fontforge
 Version:        20160404
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Outline and bitmap font editor
 
 License:        GPLv3+
@@ -166,6 +166,9 @@ fi
 %doc htdocs
 
 %changelog
+* Thu Jul 07 2016 Parag Nemade <pnemade AT redhat DOT com> - 20160404-3
+- Rebuild for new libuninameslist-20160701 build
+
 * Wed Apr 06 2016 Parag Nemade <pnemade AT redhat DOT com> - 20160404-2
 - Move from python2 to python3 support
 
