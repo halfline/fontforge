@@ -20,6 +20,7 @@ Requires:       xdg-utils
 Requires:       autotrace
 Requires:       hicolor-icon-theme
 
+BuildRequires:  gcc
 BuildRequires:  libjpeg-devel
 BuildRequires:  libtiff-devel
 BuildRequires:  libpng-devel
@@ -41,6 +42,8 @@ BuildRequires:  readline-devel
 # This is failing on aarch64 so drop it
 #BuildRequires:  python-ipython
 BuildRequires:  uthash-devel
+# F25 build is failing add following to fix
+BuildRequires:  shared-mime-info
 
 Provides: bundled(gnulib)
 
@@ -168,6 +171,8 @@ fi
 %changelog
 * Thu Jul 07 2016 Parag Nemade <pnemade AT redhat DOT com> - 20160404-3
 - Rebuild for new libuninameslist-20160701 build
+- Add BuildRequires: shared-mime-info
+- Add BuildRequires: gcc
 
 * Wed Apr 06 2016 Parag Nemade <pnemade AT redhat DOT com> - 20160404-2
 - Move from python2 to python3 support
