@@ -4,7 +4,7 @@
 
 Name:           fontforge
 Version:        20160404
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Outline and bitmap font editor
 
 License:        GPLv3+
@@ -169,6 +169,9 @@ fi
 %doc htdocs
 
 %changelog
+* Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20160404-4
+- https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
+
 * Thu Jul 07 2016 Parag Nemade <pnemade AT redhat DOT com> - 20160404-3
 - Rebuild for new libuninameslist-20160701 build
 - Add BuildRequires: shared-mime-info
