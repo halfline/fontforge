@@ -1,8 +1,9 @@
-From 75426cbbe57138849b96537ab1dee81e7861af11 Mon Sep 17 00:00:00 2001
-From: Parag Nemade <pnemade@redhat.com>
-Date: Fri, 8 Apr 2016 12:03:12 +0530
+From b2c5de7835a753cad1f35db8202c4733b5fc2990 Mon Sep 17 00:00:00 2001
+From: Parag A Nemade <pnemade@fedoraproject.org>
+Date: Mon, 3 Oct 2016 12:56:29 +0530
 Subject: [PATCH] Add python3 support
 
+Signed-off-by: Parag A Nemade <pnemade@fedoraproject.org>
 ---
  pycontrib/FontCompare/fc/BitmapHandler.py    | 20 +++++++--------
  pycontrib/FontCompare/fc/DocCompare.py       |  2 +-
@@ -12,14 +13,14 @@ Subject: [PATCH] Add python3 support
  pycontrib/FontCompare/unittests/unittests.py | 18 ++++++-------
  pycontrib/collab/web-test-collab.py          |  2 +-
  pycontrib/even.py                            |  2 +-
- pycontrib/gdraw/__init__.py                  |  2 +-
- pycontrib/gdraw/gdraw.py                     | 18 ++++++-------
- pycontrib/graphicore.py                      |  2 +-
+ pycontrib/gdraw/__init__.py                  |  4 +--
+ pycontrib/gdraw/gdraw.py                     | 20 +++++++--------
+ pycontrib/graphicore.py                      |  4 +--
  pycontrib/graphicore/ipython_view.py         | 13 +++++-----
- pycontrib/graphicore/shell.py                |  2 +-
+ pycontrib/graphicore/shell.py                |  4 +--
  pycontrib/svg2sfd.py                         | 38 ++++++++++++++--------------
- pycontrib/webcollab.py                       |  2 +-
- 15 files changed, 64 insertions(+), 63 deletions(-)
+ pycontrib/webcollab.py                       |  6 ++---
+ 15 files changed, 70 insertions(+), 69 deletions(-)
 
 diff --git a/pycontrib/FontCompare/fc/BitmapHandler.py b/pycontrib/FontCompare/fc/BitmapHandler.py
 index d4d00da..c159128 100644
@@ -212,7 +213,7 @@ index 96f9128..4f30fcb 100755
  """
  running even from the fontforge menu
 diff --git a/pycontrib/gdraw/__init__.py b/pycontrib/gdraw/__init__.py
-index d47976c..25bf981 100644
+index d47976c..dde7ea8 100644
 --- a/pycontrib/gdraw/__init__.py
 +++ b/pycontrib/gdraw/__init__.py
 @@ -1,4 +1,4 @@
@@ -221,8 +222,17 @@ index d47976c..25bf981 100644
  # vim:ts=8:sw=4:expandtab:encoding=utf-8
  '''
  Copyright <hashao2@gmail.com> 2009
+@@ -22,7 +22,7 @@ Copyright <hashao2@gmail.com> 2009
+ __all__ = ['Timer', 'GtkRunner', 'gtkrunner']
+ __version__ = '0.1'
+ 
+-from gdraw import *
++from .gdraw import *
+ 
+ def main():
+     pass
 diff --git a/pycontrib/gdraw/gdraw.py b/pycontrib/gdraw/gdraw.py
-index f2d5e50..3ed3abd 100755
+index f2d5e50..8b6e693 100755
 --- a/pycontrib/gdraw/gdraw.py
 +++ b/pycontrib/gdraw/gdraw.py
 @@ -1,4 +1,4 @@
@@ -231,6 +241,15 @@ index f2d5e50..3ed3abd 100755
  '''ctypes wrapper to Attach the GDraw event handler to the gtk main loop.
  
  Copyright <hashao2@gmail.com> 2009
+@@ -67,7 +67,7 @@ def setup_syspath(modpath="modules"):
+ 
+ __all__ = ['Timer', 'GtkRunner', 'gtkrunner']
+ 
+-from _gdraw import *
++from ._gdraw import *
+ from ctypes import *
+ import types
+ 
 @@ -111,7 +111,7 @@ class Timer:
  
          return
@@ -296,7 +315,7 @@ index f2d5e50..3ed3abd 100755
  
      def start(self, timeout=GTIMEOUT):
 diff --git a/pycontrib/graphicore.py b/pycontrib/graphicore.py
-index f95e488..a986327 100755
+index f95e488..229a2b7 100755
 --- a/pycontrib/graphicore.py
 +++ b/pycontrib/graphicore.py
 @@ -1,4 +1,4 @@
@@ -305,6 +324,13 @@ index f95e488..a986327 100755
  # -*- coding: utf-8 -*-
  """
  running the fontforge scripts in the graphicore folder on fontforge startup
+@@ -22,4 +22,4 @@ sys.path.append(os.path.dirname(sys.modules[__name__].__file__))
+ sys.path.reverse();
+ 
+ #load the modules
+-import graphicore.shell
+\ No newline at end of file
++import graphicore.shell
 diff --git a/pycontrib/graphicore/ipython_view.py b/pycontrib/graphicore/ipython_view.py
 index f39eedb..2b77395 100644
 --- a/pycontrib/graphicore/ipython_view.py
@@ -353,7 +379,7 @@ index f39eedb..2b77395 100644
        input.close()
  
 diff --git a/pycontrib/graphicore/shell.py b/pycontrib/graphicore/shell.py
-index 5d102f7..2728ae2 100755
+index 5d102f7..32fa584 100755
 --- a/pycontrib/graphicore/shell.py
 +++ b/pycontrib/graphicore/shell.py
 @@ -1,4 +1,4 @@
@@ -362,6 +388,15 @@ index 5d102f7..2728ae2 100755
  # -*- coding: utf-8 -*-
  """
  FontForge Interactive Python Shell
+@@ -32,7 +32,7 @@ if len(sys.argv) == 0:
+     # some versions of IPython need content in sys.argv
+     sys.argv.append('')
+ 
+-from ipython_view import *
++from .ipython_view import *
+ import gdraw
+ 
+ def runShell(data = None, glyphOrFont = None):
 diff --git a/pycontrib/svg2sfd.py b/pycontrib/svg2sfd.py
 index e1fc0ac..e23cb15 100644
 --- a/pycontrib/svg2sfd.py
@@ -459,7 +494,7 @@ index e1fc0ac..e23cb15 100644
        continue
      s = l.strip().split()
 diff --git a/pycontrib/webcollab.py b/pycontrib/webcollab.py
-index 9ee0f17..f96828c 100755
+index 9ee0f17..4be07ec 100755
 --- a/pycontrib/webcollab.py
 +++ b/pycontrib/webcollab.py
 @@ -1,4 +1,4 @@
@@ -468,6 +503,17 @@ index 9ee0f17..f96828c 100755
  # -*- coding: utf-8 -*-
  """
  running web collab server hooks
+@@ -44,8 +44,8 @@ def startWebServerInCollabMode(data = None, glyphOrFont = None):
+     global child
+     global childNodejs
+     ensureChildClosed()
+-    print("FONTFORGE:" + FONTFORGE)
+-    print("script path:" + collabpath + "web-test-collab.py")
++    print(("FONTFORGE:" + FONTFORGE))
++    print(("script path:" + collabpath + "web-test-collab.py"))
+     child = subprocess.Popen( [ FONTFORGE, "-forceuihidden", "-script", collabpath + "web-test-collab.py" ] )
+     #
+     # start the nodejs server
 -- 
-2.7.3
+2.9.3
 

@@ -1,10 +1,10 @@
 %global gettext_package FontForge
 %global gnulib_githead 2bf7326
-%global gittag0 20160404
+%global gittag0 20161001
 
 Name:           fontforge
-Version:        20160404
-Release:        4%{?dist}
+Version:        %{gittag0}
+Release:        1%{?dist}
 Summary:        Outline and bitmap font editor
 
 License:        GPLv3+
@@ -14,6 +14,7 @@ Source0:        https://github.com/fontforge/%{name}/archive/%{gittag0}.tar.gz#/
 Source1:        http://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=snapshot;h=%{gnulib_githead};sf=tgz;name=gnulib-%{gnulib_githead}.tar.gz
 # https://github.com/fontforge/fontforge/pull/1723
 Patch0:         fontforge-20140813-use-system-uthash.patch
+# Fedora specific patch to have python3 support only
 Patch1:         Add-python3-support.patch
 
 Requires:       xdg-utils
@@ -72,11 +73,9 @@ This package contains documentation files for %{name}.
 
 
 %prep
-%setup -q -n %{name}-%{version}
+%autosetup -p1
 tar xzf %{SOURCE1}
 
-%patch0 -p0
-%patch1 -p1
 sed -i -e '/^#!\//, 1d' pycontrib/webcollab.py
 
 mkdir htdocs
@@ -169,6 +168,9 @@ fi
 %doc htdocs
 
 %changelog
+* Mon Oct 03 2016 Parag Nemade <pnemade AT redhat DOT com> - 20161001-1
+- Update to 20161001
+
 * Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20160404-4
 - https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
 
