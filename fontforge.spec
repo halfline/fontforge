@@ -1,6 +1,6 @@
 %global gettext_package FontForge
 %global gnulib_githead 2bf7326
-%global gittag0 20161004
+%global gittag0 20161005
 
 Name:           fontforge
 Version:        %{gittag0}
@@ -168,6 +168,9 @@ fi
 %doc htdocs
 
 %changelog
+* Thu Oct 06 2016 Parag Nemade <pnemade AT redhat DOT com> - 20161005-1
+- Update to 20161005
+
 * Wed Oct 05 2016 Parag Nemade <pnemade AT redhat DOT com> - 20161004-1
 - Update to 20161004
 
