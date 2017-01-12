@@ -4,7 +4,7 @@
 
 Name:           fontforge
 Version:        %{gittag0}
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Outline and bitmap font editor
 
 License:        GPLv3+
@@ -168,6 +168,9 @@ fi
 %doc htdocs
 
 %changelog
+* Thu Jan 12 2017 Igor Gnatenko <ignatenko@redhat.com> - 20161012-3
+- Rebuild for readline 7.x
+
 * Mon Dec 19 2016 Miro Hrončok <mhroncok@redhat.com> - 20161012-2
 - Rebuild for Python 3.6
 
