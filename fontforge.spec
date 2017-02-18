@@ -4,7 +4,7 @@
 
 Name:           fontforge
 Version:        %{gittag0}
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Outline and bitmap font editor
 
 License:        GPLv3+
@@ -22,6 +22,7 @@ Requires:       autotrace
 Requires:       hicolor-icon-theme
 
 BuildRequires:  gcc
+BuildRequires:  git
 BuildRequires:  libjpeg-devel
 BuildRequires:  libtiff-devel
 BuildRequires:  libpng-devel
@@ -168,6 +169,9 @@ fi
 %doc htdocs
 
 %changelog
+* Sat Feb 18 2017 Parag Nemade <pnemade AT redhat DOT com> - 20161012-5
+- Add missing BR: git
+
 * Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 20161012-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
