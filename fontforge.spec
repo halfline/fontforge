@@ -4,7 +4,7 @@
 
 Name:           fontforge
 Version:        %{gittag0}
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Outline and bitmap font editor
 
 License:        GPLv3+
@@ -16,6 +16,8 @@ Source1:        http://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=snapshot;h=%{
 Patch0:         fontforge-20140813-use-system-uthash.patch
 # Fedora specific patch to have python3 support only
 Patch1:         Add-python3-support.patch
+# https://github.com/fontforge/fontforge/issues/3042
+Patch2:         fontforge-20161012-fix-free-call-to-PyMem_Free.patch
 
 Requires:       xdg-utils
 Requires:       autotrace
@@ -169,6 +171,10 @@ fi
 %doc htdocs
 
 %changelog
+* Thu Mar 09 2017 Parag Nemade <pnemade AT redhat DOT com> - 20161012-6
+- Resolves:rh#1429574 - [abrt] fontforge: PyFF_OpenFont(): fontforge killed by signal 6
+- Added patch to fix python module for python3.6
+
 * Sat Feb 18 2017 Parag Nemade <pnemade AT redhat DOT com> - 20161012-5
 - Add missing BR: git
 
