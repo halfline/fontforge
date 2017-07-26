@@ -4,7 +4,7 @@
 
 Name:           fontforge
 Version:        %{gittag0}
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Outline and bitmap font editor
 
 License:        GPLv3+
@@ -171,6 +171,9 @@ fi
 %doc htdocs
 
 %changelog
+* Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 20161012-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
 * Thu Mar 09 2017 Parag Nemade <pnemade AT redhat DOT com> - 20161012-6
 - Resolves:rh#1429574 - [abrt] fontforge: PyFF_OpenFont(): fontforge killed by signal 6
 - Added patch to fix python module for python3.6
