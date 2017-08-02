@@ -4,7 +4,7 @@
 
 Name:           fontforge
 Version:        %{gittag0}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Outline and bitmap font editor
 
 License:        GPLv3+
@@ -169,6 +169,9 @@ fi
 %doc htdocs
 
 %changelog
+* Wed Aug 02 2017 Fedora Release Engineering <releng@fedoraproject.org> - 20170731-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
+
 * Mon Jul 31 2017 Parag Nemade <pnemade AT redhat DOT com> - 20170731-1
 - Update to 20170731
 
