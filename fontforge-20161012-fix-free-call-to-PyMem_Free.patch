@@ -1,0 +1,121 @@
+diff -urN fontforge-20161012.old/fontforge/python.c fontforge-20161012/fontforge/python.c
+--- fontforge-20161012.old/fontforge/python.c	2016-10-11 06:59:29.000000000 +0530
++++ fontforge-20161012/fontforge/python.c	2017-03-09 20:16:23.539059197 +0530
+@@ -1010,7 +1010,7 @@
+     if ( !PyArg_ParseTuple(args,"es|i", "UTF-8", &filename, &openflags ))
+ return( NULL );
+     locfilename = utf82def_copy(filename);
+-    free(filename);
++    PyMem_Free(filename);
+ 
+     /* The actual filename opened may be different from the one passed
+      * to LoadSplineFont, so we can't report the filename on an
+@@ -1037,7 +1037,7 @@
+     if ( !PyArg_ParseTuple(args,"es","UTF-8",&filename) )
+ return( NULL );
+     locfilename = utf82def_copy(filename);
+-    free(filename);
++    PyMem_Free(filename);
+     ret = GetFontNames(locfilename, 1);
+     free(locfilename);
+     cnt = 0;
+@@ -4093,7 +4093,7 @@
+     if ( !PyArg_ParseTuple(args,"es","UTF-8",&filename) )
+ return( NULL );
+     locfilename = utf82def_copy(filename);
+-    free(filename);
++    PyMem_Free(filename);
+ 
+     pt = strrchr(locfilename,'.');
+     if ( pt==NULL ) pt=locfilename;
+@@ -7750,7 +7750,7 @@
+     if ( !PyArg_ParseTuple(args,"es|O","UTF-8",&filename, &flags) )
+ return( NULL );
+     locfilename = utf82def_copy(filename);
+-    free(filename);
++    PyMem_Free(filename);
+ 
+     /* Check if the file exists and is readable */
+     if ( access(locfilename,R_OK)!=0 ) {
+@@ -7819,7 +7819,7 @@
+     if ( !PyArg_ParseTuple(args,"es|OO","UTF-8",&filename,&foo,&bar) )
+ return( NULL );
+     locfilename = utf82def_copy(filename);
+-    free(filename);
++    PyMem_Free(filename);
+ 
+     pt = strrchr(locfilename,'.');
+     if ( pt==NULL ) pt=locfilename;
+@@ -13514,7 +13514,7 @@
+ 	    &to_background) )
+ return( NULL );
+     locfilename = utf82def_copy(filename);
+-    free(filename);
++    PyMem_Free(filename);
+ 
+     ext = strrchr(locfilename,'.');
+     if ( ext==NULL ) {
+@@ -13588,7 +13588,7 @@
+     if ( !PyArg_ParseTuple(args,"OesO", &other, "UTF-8", &filename, &flagstuple ))
+ return( NULL );
+     locfilename = utf82def_copy(filename);
+-    free(filename);
++    PyMem_Free(filename);
+ 
+     if ( !PyType_IsSubtype(&PyFF_FontType, Py_TYPE(other)) ) {
+ 	PyErr_Format(PyExc_TypeError,"First argument must be a fontforge font");
+@@ -15655,7 +15655,7 @@
+ 	}
+     }
+     locfilename = utf82def_copy(filename);
+-    free(filename);
++    PyMem_Free(filename);
+     if ( !GenerateScript(fv->sf,locfilename,bitmaptype,iflags,resolution,subfontdirectory,
+ 	    NULL,fv->normal==NULL?fv->map:fv->normal,rename_to,layer) ) {
+ 	PyErr_Format(PyExc_EnvironmentError, "Font generation failed");
+@@ -15811,7 +15811,7 @@
+     }
+ 
+     locfilename = utf82def_copy(filename);
+-    free(filename);
++    PyMem_Free(filename);
+ 
+     if ( !WriteTTC(locfilename,head,ff_ttc,bf,iflags,layer,ittcflags)) {
+ 	PyErr_Format(PyExc_EnvironmentError, "Font generation failed");
+@@ -15839,7 +15839,7 @@
+     if ( !PyArg_ParseTuple(args,"es|s","UTF-8",&filename,&lookup_name) )
+ return( NULL );
+     locfilename = utf82def_copy(filename);
+-    free(filename);
++    PyMem_Free(filename);
+ 
+     if ( lookup_name!=NULL ) {
+ 	otl = SFFindLookup(fv->sf,lookup_name);
+@@ -15879,7 +15879,8 @@
+     if ( !PyArg_ParseTuple(args,"es","UTF-8",&filename) )
+ return( NULL );
+     locfilename = utf82def_copy(filename);
+-    free(filename);
++    PyMem_Free(filename);
++
+     if ( !LoadKerningDataFromMetricsFile(fv->sf,locfilename,fv->map)) {
+ 	PyErr_Format(PyExc_EnvironmentError, "No metrics data found");
+ return( NULL );
+@@ -15903,7 +15904,7 @@
+ 	    &preserveCrossFontKerning, &openflags) )
+ return( NULL );
+     locfilename = utf82def_copy(filename);
+-    free(filename);
++    PyMem_Free(filename);
+     sf = LoadSplineFont(locfilename,openflags);
+     if ( sf==NULL ) {
+ 	PyErr_Format(PyExc_EnvironmentError, "No font found in file \"%s\"", locfilename);
+@@ -15931,7 +15932,7 @@
+     if ( !PyArg_ParseTuple(args,"des|i",&fraction,"UTF-8",&filename, &openflags) )
+ return( NULL );
+     locfilename = utf82def_copy(filename);
+-    free(filename);
++    PyMem_Free(filename);
+     sf = LoadSplineFont(locfilename,openflags);
+     if ( sf==NULL ) {
+ 	PyErr_Format(PyExc_EnvironmentError, "No font found in file \"%s\"", locfilename);
