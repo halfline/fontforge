@@ -26,7 +26,7 @@ BuildRequires:  git
 BuildRequires:  libjpeg-devel
 BuildRequires:  libtiff-devel
 BuildRequires:  libpng-devel
-BuildRequires:  libungif-devel
+BuildRequires:  giflib-devel
 BuildRequires:  libxml2-devel
 BuildRequires:  freetype-devel
 BuildRequires:  desktop-file-utils
