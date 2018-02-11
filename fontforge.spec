@@ -4,7 +4,7 @@
 
 Name:           fontforge
 Version:        %{gittag0}
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Outline and bitmap font editor
 
 License:        GPLv3+
@@ -155,6 +155,9 @@ chmod 644 $RPM_BUILD_ROOT%{_datadir}/fontforge/nodejs/collabwebview/js/contentEd
 %doc htdocs
 
 %changelog
+* Sun Feb 11 2018 Sandro Mani <manisandro@gmail.com> - 20170731-5
+- Rebuild (giflib)
+
 * Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 20170731-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
