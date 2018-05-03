@@ -4,7 +4,7 @@
 
 Name:           fontforge
 Version:        %{gittag0}
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Outline and bitmap font editor
 
 License:        GPLv3+
@@ -26,7 +26,7 @@ BuildRequires:  git
 BuildRequires:  libjpeg-devel
 BuildRequires:  libtiff-devel
 BuildRequires:  libpng-devel
-BuildRequires:  libungif-devel
+BuildRequires:  giflib-devel
 BuildRequires:  libxml2-devel
 BuildRequires:  freetype-devel
 BuildRequires:  desktop-file-utils
@@ -128,23 +128,9 @@ chmod 644 $RPM_BUILD_ROOT%{_datadir}/fontforge/nodejs/collabwebview/css/*.css
 chmod 644 $RPM_BUILD_ROOT%{_datadir}/fontforge/nodejs/collabwebview/js/*.js
 chmod 644 $RPM_BUILD_ROOT%{_datadir}/fontforge/nodejs/collabwebview/js/contentEditable/*
 
-%post
-update-desktop-database &> /dev/null || :
-/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-/usr/bin/update-mime-database %{_datadir}/mime &> /dev/null || :
-/sbin/ldconfig
+%post -p /sbin/ldconfig
 
-%postun
-update-desktop-database &> /dev/null || :
-if [ $1 -eq 0 ] ; then
-    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
-    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-    /usr/bin/update-mime-database %{_datadir}/mime &> /dev/null || :
-fi
-/sbin/ldconfig
-
-%posttrans
-/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+%postun -p /sbin/ldconfig
 
 %files -f %{gettext_package}.lang
 %doc AUTHORS
@@ -169,6 +155,15 @@ fi
 %doc htdocs
 
 %changelog
+* Sun Feb 11 2018 Sandro Mani <manisandro@gmail.com> - 20170731-5
+- Rebuild (giflib)
+
+* Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 20170731-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
+* Thu Jan 11 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 20170731-3
+- Remove obsolete scriptlets
+
 * Wed Aug 02 2017 Fedora Release Engineering <releng@fedoraproject.org> - 20170731-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
 
