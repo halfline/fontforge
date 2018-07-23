@@ -39,6 +39,7 @@ BuildRequires:  cairo-devel
 BuildRequires:  libspiro-devel
 BuildRequires:  python3-devel
 BuildRequires:  libtool-ltdl-devel
+BuildRequires:  libtool
 BuildRequires:  readline-devel
 # This is failing on aarch64 so drop it
 #BuildRequires:  python-ipython
