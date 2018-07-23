@@ -4,7 +4,7 @@
 
 Name:           fontforge
 Version:        %{gittag0}
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Outline and bitmap font editor
 
 License:        GPLv3+
@@ -38,7 +38,6 @@ BuildRequires:  pango-devel
 BuildRequires:  cairo-devel
 BuildRequires:  libspiro-devel
 BuildRequires:  python3-devel
-BuildRequires:  gnulib-devel
 BuildRequires:  libtool-ltdl-devel
 BuildRequires:  readline-devel
 # This is failing on aarch64 so drop it
@@ -155,6 +154,9 @@ chmod 644 $RPM_BUILD_ROOT%{_datadir}/fontforge/nodejs/collabwebview/js/contentEd
 %doc htdocs
 
 %changelog
+* Mon Jul 23 2018 Ray Strode <rstrode@redhat.com> - 20170731-6
+- Drop gnulib BuildReq
+
 * Sun Feb 11 2018 Sandro Mani <manisandro@gmail.com> - 20170731-5
 - Rebuild (giflib)
 
